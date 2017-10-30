@@ -3,8 +3,10 @@ import os
 import pickle
 import requests
 import json
+from flatten_json import flatten_json
 from behave import given, when, then
 from step_utils  import readCookieFromCache
+
 
 
 @given('отправляем авторизованный запрос на "{path}"')
@@ -53,6 +55,33 @@ def step_impl(context, struct_name, id):
 
 
 
+@then('объект структуры "{struct_name}" имеет поля')
+def step_impl(context, struct_name):
+  app_id = paramFromConfig(context, 'app_id')
+  app_secret = paramFromConfig(context, 'app_secret')
+  
+  step_params = json.loads(context.text)
+  filters = step_params['filter']
+  assertion = flatten_json(step_params['assert'])
+
+  uri = 'http://localhost:8080/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (struct_name, app_id, app_secret)  
+  print('looking %s with filters: %s' % (struct_name, filters))
+  print('call: %s' % uri)
+  r = requests.post(uri, data=json.dumps(filters))
+  handleResponse(r)
+
+  result = json.loads(r.text)
+  resultList = result['result']['list']
+  assert len(resultList) == 1
+  item = resultList[0]['obj']
+  print('item = %s' % item)
+  print(assertion)
+
+  flattenItem = flatten_json(item)
+  for assertKey, assertValue in assertion.items():
+    assert flattenItem[assertKey] == assertValue
+
+
 def handleResponse(r):
   print('status: %s - \n%s' % (r.text, r.status_code))
   r.raise_for_status()
@@ -61,4 +90,4 @@ def handleResponse(r):
 
 
 def paramFromConfig(context, name):
-	return context.config.userdata[name]
+  return context.config.userdata[name]
