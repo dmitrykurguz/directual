@@ -1,18 +1,23 @@
 version: '3'
 services:
   
-  # selenoid:
-    # network_mode: bridge
-    # image: aerokube/selenoid:latest-release
-    # volumes:
-      # - "$PWD:/etc/selenoid"
-      # - "/var/run/docker.sock:/var/run/docker.sock"
-    # ports:
-      # - "4444:4444"
+#  selenoid:
+#   # network_mode: bridge
+#    image: aerokube/selenoid:latest-release
+#    volumes:
+#      - "$PWD/selenoid:/etc/selenoid"
+#      - "/var/run/docker.sock:/var/run/docker.sock"
+#      - "${HOME}:/root"
+#    ports:
+#      - "4444:4444"
+#    environment:
+#      OVERRIDE_HOME: ${HOME}
+#    # command: selenoid start --vnc --tmpfs 128 -g "--container-network testcases_default"
+#    command: selenoid start --vnc --tmpfs 128 -g "--container-network qa-core"
 
 
   postgres:
-    network_mode: bridge
+#    network_mode: bridge
     image: postgres:9.5
     ports:
       - "5432:5432"
@@ -40,13 +45,13 @@ services:
     #   ADVERTISED_HOST: 172.22.0.7
 
   zk:
-    network_mode: bridge
+#    network_mode: bridge
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
 
   kafka:
-    network_mode: bridge
+#    network_mode: bridge
     image: wurstmeister/kafka    
     depends_on:
       - zk
@@ -68,20 +73,20 @@ services:
   #     ADVERTISED_HOST: "${docker-machine ip}"
 
   mongodb:
-    network_mode: bridge
+#    network_mode: bridge
     image: mongo
     ports:
       - "27017:27017"
 
   redis:
-    network_mode: bridge
+#    network_mode: bridge
     image: redis:3.2
     ports:
       - "6379:6379"
 
 
   web_ui:
-    network_mode: bridge
+#    network_mode: bridge
     image: gitlab.directual.com:5005/platform/directual-server/${WEB_UI_IMAGE}
     depends_on:
       - kafka
@@ -120,6 +125,12 @@ services:
       DIRECTUAL_UPLOADPATH: /tmp
       DIRECTUAL_APPLICATIONKEYS_DEFAULTAPPID: ${TEST_APP_ID}
       DIRECTUAL_APPLICATIONKEYS_DEFAULTSECRET: ${TEST_APP_SECRET}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/good/v4/healthcheck/"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      #start-period: 30s
 
       
 
@@ -127,7 +138,7 @@ services:
 
   
   elastic:
-    network_mode: bridge
+#    network_mode: bridge
     image: elasticsearch:5.5
     ports:
       - "9300:9300"

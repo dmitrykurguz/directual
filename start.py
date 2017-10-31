@@ -41,7 +41,14 @@ if(ds == 'pg'):
 
 f.close()
 
-command = 'docker-compose up --force-recreate ' + scale
+command = 'docker-compose -p qa-core up --force-recreate -d ' + scale
 print 'executing: ' + command
 
 os.system(command)
+
+
+
+
+# TODO run wait-for-it, wait for healthcheck from web-ui
+# run selenoid
+# add to network

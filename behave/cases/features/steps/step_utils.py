@@ -42,7 +42,7 @@ def cacheNameExists(name):
   return False
 
 def appAddress(context):
-  return 'http://%s' % paramFromConfig(context, 'app_address')
+  return paramFromConfig(context, 'app_address')
 
 def paramFromConfig(context, name):
   return context.config.userdata[name]
