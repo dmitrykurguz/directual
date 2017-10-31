@@ -1,4 +1,0 @@
-behave
-selenium
-requests
-flatten_json
