@@ -1,0 +1,5 @@
+
+behave/cases/features/steps/__pycache__
+.idea
+.vscode
+reports
