@@ -1,2 +1,0 @@
-{"sysName":"dog",
-"name":"dog","id":"0","parentID":"0","fastCreate":false,"fastCreatePayload":"","sourceSysName":"","action":"create"}
