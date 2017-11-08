@@ -2,6 +2,7 @@ version: '3'
 services:
   selenoid:
     image: "aerokube/selenoid"
+    command: -container-network ${COMPOSE_PROJECT_NAME}_default
     volumes:
       - "$PWD/selenoid:/etc/selenoid/" 
       - "/var/run/docker.sock:/var/run/docker.sock"
