@@ -6,6 +6,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 VOLUME ["/usr/src/app/behave"]
+VOLUME ["/usr/src/app/reports"]
 
 # RUN cd behave
 # COPY . .

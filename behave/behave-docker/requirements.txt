@@ -2,3 +2,4 @@ behave
 selenium
 requests
 flatten_json
+allure-behave

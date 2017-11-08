@@ -1,0 +1,14 @@
+version: '3'
+services:
+  behave:
+    image: behave
+    volumes:
+      - ${PWD}/behave/cases:/usr/src/app/behave
+      - ${PWD}/reports:/usr/src/app/reports
+    entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://web_ui:8080 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports
+
+
+
+
+
+#docker run --rm  -v /Users/onexdrk/directual/qa-core/behave/cases:/usr/src/app/behave -v /Users/onexdrk/directual/qa-core/reports:/usr/src/app/reports --name behave-cases --network=qacore1510140722_default behave behave -D hub=http://selenoid-1510140722:4444/wd/hub -Dapp_address=http://web_ui:8080  -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports  	

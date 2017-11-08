@@ -1,5 +1,6 @@
 import time
 import pickle
+import allure
 from datetime import datetime
 from behave import given, when, then
 from selenium import webdriver
@@ -72,9 +73,12 @@ def step_impl(context, login, pwd):
 
   context.browser.find_element_by_css_selector('#email').send_keys(login)
   context.browser.find_element_by_css_selector('#password').send_keys(pwd)
+
+  allure.attach(context.browser.get_screenshot_as_png(), name='before_login', attachment_type=allure.attachment_type.PNG)
   context.browser.find_element_by_css_selector('input[type=submit]').click()
   waitForDashboardPageBeingReady()
   time.sleep(30)
+  allure.attach(context.browser.get_screenshot_as_png(), name='after_login', attachment_type=allure.attachment_type.PNG)
   waitForLoaderHide()
   
 

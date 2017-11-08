@@ -72,12 +72,7 @@ services:
   #     # ADVERTISED_HOST: kafka_zk
   #     ADVERTISED_HOST: "${docker-machine ip}"
 
-  mongodb:
-#    network_mode: bridge
-    image: mongo
-    ports:
-      - "27017:27017"
-
+  
   redis:
 #    network_mode: bridge
     image: redis:3.2
@@ -85,54 +80,6 @@ services:
       - "6379:6379"
 
 
-  web_ui:
-#    network_mode: bridge
-    image: gitlab.directual.com:5005/platform/directual-server/${WEB_UI_IMAGE}
-    depends_on:
-      - kafka
-      - zk
-      - postgres
-      - redis
-    ports:
-      - "8080:8080"
-      - "8099:8099"
-    environment:
-      HOST_HOSTNAME: web_ui_test
-      JAVA_OPTS: 
-      GRAPHITE_HOST:
-      GRAPHITE_PORT:
-      GRAPHITE_API_URL:
-      DIRECTUAL_LOCK-SERIVCE_REDIS_HOST: redis
-      DIRECTUAL_LOCK-SERIVCE_REDIS_PORT: 6379
-      SERVICE_REDIS_HOSTS: redis:6379
-      DIRECTUAL_LOCK-SERVICE_REDIS_HOSTS: redis:6379
-      DIRECTUAL_INDEXER_ELASTIC_HOSTS: elastic:9300
-      DIRECTUAL_SCENARIODATASOURCECLASS: ${DATASOURCE}
-      DIRECTUAL.SCENARIODATASOURCECLASSPARAMS: ${DATASOURCE_PARAMS}
-      # HBASE_ZOOKEEPER: 172.22.0.7
-      HBASE_ZOOKEEPER: zk
-      # TELEGRAM_ENABLE: False
-      DATABASE_URL: jdbc:postgresql://postgres/directual
-      DATABASE_USER: directual
-      DATABASE_PASSWORD: 123456
-      # DIRECTUAL_CONFIG_PATH: /usr/local/tomcat/conf/directual.conf
-      # KAFKA_HOST: 172.22.0.7:9092
-      # KAFKA_HOST: kafka_zk:9092
-      KAFKA_HOST: kafka:9092
-      # ZOOKEEPER_QUORUM: 172.22.0.7:2181
-      ZOOKEEPER_QUORUM: zk:2181
-      DERECTUAL_UI_TYPE: PORTAL
-      DIRECTUAL_UPLOADPATH: /tmp
-      DIRECTUAL_APPLICATIONKEYS_DEFAULTAPPID: ${TEST_APP_ID}
-      DIRECTUAL_APPLICATIONKEYS_DEFAULTSECRET: ${TEST_APP_SECRET}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/good/v4/healthcheck/"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
-      #start-period: 30s
-
-      
 
       
 

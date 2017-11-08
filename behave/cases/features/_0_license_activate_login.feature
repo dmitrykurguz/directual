@@ -1,5 +1,5 @@
 #Feature: Licence keys
-Функционал: Лицензионные ключи
+Функционал: Лицензионные ключи и вход в систему
 
 #Scenario: Invalid licence key should show error message on activation
 #    Given directual page /dashboard/login
@@ -19,20 +19,21 @@
 #---------------
 
 
-
+@minor
 Сценарий: Ввод плохого ключа должен выводить ошибку
     Допустим открыли мы страницу платформы /dashboard/login
     И это оказалась страница ввода лицензии
     Если мы вводим invalid_key в качестве ключа для пользователя test_user@directual.com
     То отображается ошибка
 
-
+@critical
 Сценарий: Ввод хорошего ключа должен активировать систему
     Допустим открыли мы страницу платформы /dashboard/login
     И это оказалась страница ввода лицензии
     Если мы вводим QEM76LDljaZhkTA0040itSdMqq4J2atX7GZSVNP3EpymLRUOvRQItcjgMI7shzYbMLJGgYMC7eTKTLD0WqebCifYWhuiyx0BkXNGaqnTUw3KMFaFe4nsdiznGxyp1xi0itPZOamO/6zVtjurfSKJS35t7WHF9cACSLkzU4+mvmA= в качестве ключа для пользователя mts
     То отображается страница входа
 
+@blocker
 @wip
 Сценарий: Вход в систему должен работать корректно
     Допустим открыли мы страницу платформы /dashboard/login

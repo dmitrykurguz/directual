@@ -1,0 +1,47 @@
+<testsuite errors="0" failures="0" name="_0_license_activate_login.Лицензионные ключи" skipped="2" tests="3" time="34.24435"><testcase classname="_0_license_activate_login.Лицензионные ключи" name="Ввод плохого ключа должен выводить ошибку" status="skipped" time="2.498322"><skipped /><system-out>
+<![CDATA[
+@scenario.begin
+  Сценарий: Ввод плохого ключа должен выводить ошибку
+    Допустим открыли мы страницу платформы /dashboard/login ... passed in 2.461s
+    И это оказалась страница ввода лицензии ... skipped in 0.037s
+    Если мы вводим invalid_key в качестве ключа для пользователя test_user@directual.com ... skipped in 0.000s
+    То отображается ошибка ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="_0_license_activate_login.Лицензионные ключи" name="Ввод хорошего ключа должен активировать систему" status="skipped" time="0.285292"><skipped /><system-out>
+<![CDATA[
+@scenario.begin
+  Сценарий: Ввод хорошего ключа должен активировать систему
+    Допустим открыли мы страницу платформы /dashboard/login ... passed in 0.258s
+    И это оказалась страница ввода лицензии ... skipped in 0.027s
+    Если мы вводим QEM76LDljaZhkTA0040itSdMqq4J2atX7GZSVNP3EpymLRUOvRQItcjgMI7shzYbMLJGgYMC7eTKTLD0WqebCifYWhuiyx0BkXNGaqnTUw3KMFaFe4nsdiznGxyp1xi0itPZOamO/6zVtjurfSKJS35t7WHF9cACSLkzU4+mvmA= в качестве ключа для пользователя mts ... skipped in 0.000s
+    То отображается страница входа ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="_0_license_activate_login.Лицензионные ключи" name="Вход в систему должен работать корректно" status="passed" time="31.460737"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @wip
+  Сценарий: Вход в систему должен работать корректно
+    Допустим открыли мы страницу платформы /dashboard/login ... passed in 0.292s
+    И это оказалась страница входа в систему ... passed in 0.040s
+    Если мы пытаемся ввойти в систему под логином admin и паролем 123456 ... passed in 30.798s
+    И обновляем страницу ... passed in 0.234s
+    То установлена cookie с именем sessionid ... passed in 0.061s
+    И отображается страница по пути /dashboard/cabinet ... passed in 0.024s
+    К тому же сохраним значение cookie sessionid в кеш ... passed in 0.013s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+[{'domain': 'web_ui', 'httpOnly': False, 'name': 'sessionid', 'path': '/', 'secure': False, 'value': '582d3f1f-158f-4d5f-8969-abb2b436a0fa'}, {'domain': 'web_ui', 'httpOnly': True, 'name': 'ss', 'path': '/', 'secure': False, 'value': '23F54D7F3D3F10E8656AC1410AAE71FF'}]
+http://web_ui:8080/dashboard/cabinet/
+
+]]>
+</system-out></testcase></testsuite>
