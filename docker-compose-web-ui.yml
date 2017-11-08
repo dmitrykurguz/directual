@@ -1,16 +1,12 @@
 version: '3'
 services:
   web_ui:
-#    network_mode: bridge
     image: gitlab.directual.com:5005/platform/directual-server/${WEB_UI_IMAGE}
     depends_on:
       - kafka
       - zk
       - postgres
       - redis
-    ports:
-      - "8080:8080"
-      - "8099:8099"
     environment:
       HOST_HOSTNAME: web_ui_test
       JAVA_OPTS: 
@@ -45,6 +41,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
-      #start-period: 30s
-
-      
