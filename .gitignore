@@ -4,3 +4,5 @@ behave/cases/features/steps/__pycache__
 .vscode
 reports
 .DS_Store
+waitforit-linux_amd64
+waitforit-darwin_amd64

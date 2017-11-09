@@ -5,4 +5,4 @@ COMPOSE_PROJECT_NAME=qacore docker-compose -f docker-compose-infra.yml -f docker
 
 
 #docker network inspect qacore_default   and run stop/rm containers of browser, delete network
-#allure serve ./reports
+allure serve ./reports
