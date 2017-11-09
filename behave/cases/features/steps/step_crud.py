@@ -50,8 +50,12 @@ def step_impl(context, struct_name, id):
   handleResponse(r)
 
   response = json.loads(r.text)
-  assert len(response['result']['list']) == 1
-  # TODO check object is ok
+  print(response)
+
+  assert 'result' in response
+  results = response['result']
+  assert 'list' in results
+  assert len(results['list']) == 1
 
 
 
