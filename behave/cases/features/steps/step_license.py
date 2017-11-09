@@ -69,7 +69,7 @@ def step_impl(context, login, pwd):
   waitForLoginPageBeingReady()
 
   now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-  context.browser.get_screenshot_as_file('screenshot-%s.png' % now)
+  # context.browser.get_screenshot_as_file('screenshot-%s.png' % now)
 
   context.browser.find_element_by_css_selector('#email').send_keys(login)
   context.browser.find_element_by_css_selector('#password').send_keys(pwd)

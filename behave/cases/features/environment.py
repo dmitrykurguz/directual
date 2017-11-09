@@ -1,17 +1,19 @@
 import sys
 import os
+import time
 from os.path import join
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 def before_all(context):
+  time.sleep(10) # wait for selenoid
+
   os = 'mac'
   hub = None
   if 'os' in context.config.userdata:
     os = context.config.userdata['os']
   if 'hub' in context.config.userdata:
-    # http://127.0.0.1:4444/wd/hub
     hub = context.config.userdata['hub']
 
   removePickleCaches()
@@ -27,7 +29,6 @@ def before_all(context):
       "browserName": "chrome",
       "version": "62.0"
     }
-    # context.browser = webdriver.Remote(command_executor=hub, desired_capabilities=DesiredCapabilities.CHROME)
     context.browser = webdriver.Remote(command_executor=hub, desired_capabilities=capabilities)
   else:
     desired_capabilities = webdriver.DesiredCapabilities.CHROME
