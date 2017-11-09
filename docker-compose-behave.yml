@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   behave:
     image: gitlab.directual.com:5005/docker/behave
