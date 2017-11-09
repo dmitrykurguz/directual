@@ -49,7 +49,7 @@ def paramFromConfig(context, name):
   return context.config.userdata[name]
 
 def debug(text, name = 'trace-2'):
-  allure.attach(name, name=text, attachment_type='text/plain')
+  allure.attach(text, name=name, attachment_type='text/plain')
 
 
 
