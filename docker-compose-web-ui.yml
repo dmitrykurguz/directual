@@ -36,8 +36,8 @@ services:
       DIRECTUAL_UPLOADPATH: /tmp
       DIRECTUAL_APPLICATIONKEYS_DEFAULTAPPID: ${TEST_APP_ID}
       DIRECTUAL_APPLICATIONKEYS_DEFAULTSECRET: ${TEST_APP_SECRET}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/good/v4/healthcheck/"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8080/good/v4/healthcheck/"]
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 3
