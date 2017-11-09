@@ -2,6 +2,7 @@ import sys
 import os
 import pickle
 from behave import given, when, then
+import allure
 
 
 #----------------------UTILS---------------
@@ -47,6 +48,8 @@ def appAddress(context):
 def paramFromConfig(context, name):
   return context.config.userdata[name]
 
+def debug(name, text = 'trace'):
+  allure.attach(text,, name=name, attachment_type='text/plain')
 
 
 
