@@ -1,3 +1,4 @@
+import time
 import sys
 import os
 import pickle
@@ -46,6 +47,7 @@ def step_impl(context, struct_name):
 @then('присутствует объект структуры "{struct_name}" с id "{struct_id}"')
 def step_impl(context, struct_name, struct_id):
   try:
+    time.sleep(5) # FIXME remove it !
     app_id = paramFromConfig(context, 'app_id')
     app_secret = paramFromConfig(context, 'app_secret')
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
