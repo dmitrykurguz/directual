@@ -8,7 +8,6 @@ from behave import given, when, then
 from step_utils  import readCookieFromCache, appAddress, paramFromConfig, debug
 
 
-
 @given('отправляем авторизованный запрос на "{path}"')
 def step_impl(context, path):
   try:

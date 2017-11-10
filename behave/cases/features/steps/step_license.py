@@ -1,4 +1,5 @@
 import time
+import sys
 import pickle
 import allure
 from datetime import datetime
@@ -8,14 +9,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-from environments import removePickleCaches
 from step_utils  import addCookieToCache, readCookieFromCache, appAddress, paramFromConfig
 
 #FIXME remove all .pickle files on start
 
 def before_all(context):
   context.implicitly_wait(10)
-  removePickleCaches()
 
 def before_feature(context, feature):
   context.browser.implicitly_wait(5)
