@@ -69,7 +69,9 @@ def step_impl(context, struct_name, struct_id):
     assert len(results['list']) == 1
 
 
-  except Exception:
+  except Exception, e:
+    if isinstance(e, AssertionError):
+      raise e
     logError()
     assert False
 
