@@ -55,8 +55,11 @@ def step_impl(context, struct_name, struct_id):
 
     debug('call: %s' % uri)
     r = requests.post(uri, data=body)
-
     debug(r.text)
+    handleResponse(r)
+
+    response = json.loads(r.text)
+    debug(response)
 
   except Exception:
     logError()
@@ -81,8 +84,6 @@ def step_impl(context, struct_name, struct_id):
 
 #     response = json.loads(r.text)
 #     debug(response)
-
-
 
 #     assert 'result' in response
 #     results = response['result']
