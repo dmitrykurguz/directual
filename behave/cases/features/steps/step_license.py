@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from environments import removePickleCaches
 from step_utils  import addCookieToCache, readCookieFromCache, appAddress, paramFromConfig
 
 #FIXME remove all .pickle files on start
@@ -31,7 +32,11 @@ def before_feature(context, feature):
 @given('directual page {path}')
 @given('открыли мы страницу платформы {path}')
 def step_impl(context, path):
-  context.browser.get(appAddress(context) + path)
+  try:
+    context.browser.get(appAddress(context) + path)
+  except Exception:
+    debug('Unknown error', sys.exc_info)
+    assert False
   # pass
 
 
