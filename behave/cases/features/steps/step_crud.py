@@ -41,34 +41,47 @@ def step_impl(context, struct_name):
     assert False
   
 
-# @given('существует объект структуры "{struct_name}" с id "{id}"')
-# @when( 'существует объект структуры "{struct_name}" с id "{id}"')
-@then('существует объект структуры "{struct_name}" с id "{id}"')
-def step_impl(context, struct_name, id):
+@given('присутствует объект структуры "{struct_name}" с id "{struct_id}"')
+@when('присутствует объект структуры "{struct_name}" с id "{struct_id}"')
+@then('присутствует объект структуры "{struct_name}" с id "{struct_id}"')
+def step_impl(context, struct_name, struct_id):
   try:
     app_id = paramFromConfig(context, 'app_id')
     app_secret = paramFromConfig(context, 'app_secret')
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
-
-    body = '{"filters":[{"operator":"AND","field":"id","value":"%s","exp":"="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}' % id
-    uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
-
-    debug('call: %s' % uri)
-    r = requests.post(uri, data=body)
-    handleResponse(r)
-
-    response = json.loads(r.text)
-    debug(response)
-
-
-
-    assert 'result' in response
-    results = response['result']
-    assert 'list' in results
-    assert len(results['list']) == 1
   except Exception:
     logError()
     assert False
+
+
+# @given('присутствует объект структуры "{struct_name}" с id "{id}"')
+# @when( 'присутствует объект структуры "{struct_name}" с id "{id}"')
+# @then('присутствует объект структуры "{struct_name}" с id "{id}"')
+# def step_impl(context, struct_name, id):
+#   try:
+#     app_id = paramFromConfig(context, 'app_id')
+#     app_secret = paramFromConfig(context, 'app_secret')
+#     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
+
+#     body = '{"filters":[{"operator":"AND","field":"id","value":"%s","exp":"="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}' % id
+#     uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
+
+#     debug('call: %s' % uri)
+#     r = requests.post(uri, data=body)
+#     handleResponse(r)
+
+#     response = json.loads(r.text)
+#     debug(response)
+
+
+
+#     assert 'result' in response
+#     results = response['result']
+#     assert 'list' in results
+#     assert len(results['list']) == 1
+#   except Exception:
+#     logError()
+#     assert False
 
 
 
