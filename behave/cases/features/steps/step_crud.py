@@ -20,6 +20,8 @@ def step_impl(context, path):
     
     r = requests.post(uri, data=context.text)
     handleResponse(r)
+  except AssertionError as ex:
+    raise ex
   except Exception:
     logError()
     assert False
@@ -37,6 +39,8 @@ def step_impl(context, struct_name):
     handleResponse(res)
     result = json.loads(res.text)
     assert 'msg' not in result
+  except AssertionError as ex:
+    raise ex
   except Exception:
     logError()
     assert False
@@ -47,7 +51,7 @@ def step_impl(context, struct_name):
 @then('присутствует объект структуры "{struct_name}" с id "{struct_id}"')
 def step_impl(context, struct_name, struct_id):
   try:
-    time.sleep(5) # FIXME remove it !
+    # time.sleep(5) # FIXME remove it !
     app_id = paramFromConfig(context, 'app_id')
     app_secret = paramFromConfig(context, 'app_secret')
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
@@ -61,7 +65,7 @@ def step_impl(context, struct_name, struct_id):
     # handleResponse(res)
 
     response = json.loads(res.text)
-    # debug(response) # TODO try to uncoment, it's object, check alive test!
+    debug(response) # TODO try to uncoment, it's object, check alive test!
 
     assert 'result' in response
     results = response['result']
@@ -131,6 +135,8 @@ def step_impl(context, struct_name):
     flattenItem = flatten_json(item)
     for assertKey, assertValue in assertion.items():
       assert flattenItem[assertKey] == assertValue
+  except AssertionError as ex:
+    raise ex
   except Exception:
     logError()
     assert False
