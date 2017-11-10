@@ -24,23 +24,9 @@
 
 Сценарий: сохранение объекта структуры и его поиск
     Допустим работает шаг "Если указаны app_id и app_secret"
-    Если сохраняем объект структуры "dog"
-    """
-    {
-        "id": "42",
-        "fieldName": "Chubaka"
-    }
-    """
-    То существует объект структуры "dog" с id "42"
-    И объект структуры "dog" имеет поля
-    """
-    {
-        "filter": 
-            {"filters":[{"operator":"AND","field":"id","value":"42","exp":"=="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}
-        ,
-        "assert": {
-            "id": "42",
-            "fieldName": "Chubaka"
-        }
-    }
-    """
+    
+    
+    
+    
+    
+    
