@@ -65,7 +65,7 @@ def step_impl(context, struct_name, struct_id):
     # handleResponse(res)
 
     response = json.loads(res.text)
-    debug(response) # TODO try to uncoment, it's object, check alive test!
+    # debug(response) # TODO try to uncoment, it's object, check alive test!
 
     assert 'result' in response
     results = response['result']
