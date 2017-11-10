@@ -58,7 +58,7 @@ def step_impl(context, struct_name, struct_id):
     debug(res.text)
     # handleResponse(res)
 
-    # response = json.loads(res.text)
+    response = json.loads(res.text)
     # debug(response)
 
     # assert 'result' in response
