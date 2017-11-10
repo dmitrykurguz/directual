@@ -14,6 +14,9 @@ def step_impl(context, path):
   sessionid = readCookieFromCache("sessionid")
   
   assert sessionid is not None
+
+
+  assert False
   
   uri = '%s%s?%s=%s' % (appAddress(context), path, 'sessionid', sessionid['value'])
   debug('request %s with sessionId' % uri)
