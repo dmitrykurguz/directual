@@ -53,7 +53,6 @@ def debug(text):
 
 
 
-
 @when('есть кешированое значение cookie с именем {name}')
 @then('есть кешированое значение cookie с именем {name}')
 def step_impl(context, name):
