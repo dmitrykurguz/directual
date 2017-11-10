@@ -50,7 +50,7 @@ def paramFromConfig(context, name):
   return context.config.userdata[name]
 
 def logError():
-  debug('Unknown error')
+  debug('Unknown error, click for details..')
   
 def debug(text, info = ''):
   exc = traceback.format_exc()
