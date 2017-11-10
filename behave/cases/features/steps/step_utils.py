@@ -48,8 +48,8 @@ def appAddress(context):
 def paramFromConfig(context, name):
   return context.config.userdata[name]
 
-def debug(text):
-  allure.attach('', name=text, attachment_type='text/plain')
+def debug(text, info=''):
+  allure.attach(info, name=text, attachment_type='text/plain')
 
 
 

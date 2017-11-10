@@ -27,40 +27,52 @@ def step_impl(context, path):
   
 @when('сохраняем объект структуры "{struct_name}"')
 def step_impl(context, struct_name):
-  app_id = paramFromConfig(context, 'app_id')
-  app_secret = paramFromConfig(context, 'app_secret')
-  debug('use app_id %s and app_secret %s' % (app_id, app_secret))
+  try:
+    app_id = paramFromConfig(context, 'app_id')
+    app_secret = paramFromConfig(context, 'app_secret')
+    debug('use app_id %s and app_secret %s' % (app_id, app_secret))
 
-  uri = '%s/good/api/v3/struct/%s/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
-  debug('call: %s' % uri)
-  r = requests.post(uri, data=context.text)
-  handleResponse(r)
-  result = json.loads(r.text)
-  assert 'msg' not in result
+    ololo
+
+    uri = '%s/good/api/v3/struct/%s/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
+    debug('call: %s' % uri)
+    r = requests.post(uri, data=context.text)
+    handleResponse(r)
+    result = json.loads(r.text)
+    assert 'msg' not in result
+  except Exception:
+    debug('Unknown error', sys.exc_info(0))
+    assert False
   
 
 @given('существует объект структуры "{struct_name}" с id "{id}"')
 @when( 'существует объект структуры "{struct_name}" с id "{id}"')
 @then( 'существует объект структуры "{struct_name}" с id "{id}"')
 def step_impl(context, struct_name, id):
-  app_id = paramFromConfig(context, 'app_id')
-  app_secret = paramFromConfig(context, 'app_secret')
-  debug('use app_id %s and app_secret %s' % (app_id, app_secret))
+  try:
+    app_id = paramFromConfig(context, 'app_id')
+    app_secret = paramFromConfig(context, 'app_secret')
+    debug('use app_id %s and app_secret %s' % (app_id, app_secret))
 
-  body = '{"filters":[{"operator":"AND","field":"id","value":"%s","exp":"="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}' % id
-  uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
+    body = '{"filters":[{"operator":"AND","field":"id","value":"%s","exp":"="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}' % id
+    uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
 
-  debug('call: %s' % uri)
-  r = requests.post(uri, data=body)
-  handleResponse(r)
+    debug('call: %s' % uri)
+    r = requests.post(uri, data=body)
+    handleResponse(r)
 
-  response = json.loads(r.text)
-  debug(response)
+    response = json.loads(r.text)
+    debug(response)
 
-  assert 'result' in response
-  results = response['result']
-  assert 'list' in results
-  assert len(results['list']) == 1
+
+
+    assert 'result' in response
+    results = response['result']
+    assert 'list' in results
+    assert len(results['list']) == 1
+  except Exception:
+    debug('Unknown error', sys.exc_info(0))
+    assert False
 
 
 
