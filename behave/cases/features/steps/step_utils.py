@@ -3,6 +3,7 @@ import os
 import pickle
 from behave import given, when, then
 import allure
+import traceback
 
 
 #----------------------UTILS---------------
