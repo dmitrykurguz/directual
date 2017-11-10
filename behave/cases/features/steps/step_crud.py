@@ -58,13 +58,13 @@ def step_impl(context, struct_name, struct_id):
     debug(r.text)
     # handleResponse(r)
 
-    response = json.loads(r.text)
-    debug(response)
+    # response = json.loads(r.text)
+    # debug(response)
 
-#     assert 'result' in response
-#     results = response['result']
-#     assert 'list' in results
-#     assert len(results['list']) == 1
+    # assert 'result' in response
+    # results = response['result']
+    # assert 'list' in results
+    # assert len(results['list']) == 1
 
 
   except Exception:
