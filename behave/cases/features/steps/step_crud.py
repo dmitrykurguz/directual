@@ -41,7 +41,7 @@ def step_impl(context, struct_name):
     result = json.loads(r.text)
     assert 'msg' not in result
   except Exception:
-    debug('Unknown error', sys.exc_info(0))
+    debug('Unknown error', sys.exc_info)
     assert False
   
 
@@ -71,7 +71,7 @@ def step_impl(context, struct_name, id):
     assert 'list' in results
     assert len(results['list']) == 1
   except Exception:
-    debug('Unknown error', sys.exc_info(0))
+    debug('Unknown error', sys.exc_info)
     assert False
 
 
