@@ -31,4 +31,3 @@
         "fieldName": "Chubaka"
     }
     """
-    

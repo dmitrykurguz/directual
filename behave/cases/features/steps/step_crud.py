@@ -35,6 +35,8 @@ def step_impl(context, struct_name):
   debug('call: %s' % uri)
   r = requests.post(uri, data=context.text)
   handleResponse(r)
+  result = json.loads(r.text)
+  assert 'msg' not in result
   
 
 @given('существует объект структуры "{struct_name}" с id "{id}"')
@@ -90,7 +92,7 @@ def step_impl(context, struct_name):
 
 
 def handleResponse(r):
-  debug('status: %s - \n%s' % (r.text, r.status_code))
+  debug('status: %s - \n%s' % (r.status_code, r.text))
   r.raise_for_status()
 
 
