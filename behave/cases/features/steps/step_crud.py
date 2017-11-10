@@ -41,8 +41,8 @@ def step_impl(context, struct_name):
     assert False
   
 
-@given('существует объект структуры "{struct_name}" с id "{id}"')
-@when( 'существует объект структуры "{struct_name}" с id "{id}"')
+# @given('существует объект структуры "{struct_name}" с id "{id}"')
+# @when( 'существует объект структуры "{struct_name}" с id "{id}"')
 @then( 'существует объект структуры "{struct_name}" с id "{id}"')
 def step_impl(context, struct_name, id):
   try:
