@@ -68,12 +68,12 @@ def step_impl(context, struct_name, struct_id):
     assert 'list' in results
     assert len(results['list']) == 1
 
-
-  except Exception, e:
-    if isinstance(e, AssertionError):
-      raise e
+  except AssertionError as ex:
+    raise ex
+  except Exception:
     logError()
     assert False
+
 
 
 # @given('присутствует объект структуры "{struct_name}" с id "{id}"')
