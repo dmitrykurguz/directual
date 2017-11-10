@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-from step_utils  import addCookieToCache, readCookieFromCache, appAddress, paramFromConfig
+from step_utils  import addCookieToCache, readCookieFromCache, appAddress, paramFromConfig, debug, logError
 
 #FIXME remove all .pickle files on start
 
@@ -34,7 +34,7 @@ def step_impl(context, path):
   try:
     context.browser.get(appAddress(context) + path)
   except Exception:
-    debug('Unknown error', sys.exc_info)
+    logError()
     assert False
   # pass
 

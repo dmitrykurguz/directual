@@ -49,6 +49,9 @@ def appAddress(context):
 def paramFromConfig(context, name):
   return context.config.userdata[name]
 
+def logError():
+  debug('Unknown error')
+  
 def debug(text, info = ''):
   exc = traceback.format_exc()
   if(exc is not None):

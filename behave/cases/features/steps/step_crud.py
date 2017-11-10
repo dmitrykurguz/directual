@@ -5,7 +5,7 @@ import requests
 import json
 from flatten_json import flatten_json
 from behave import given, when, then
-from step_utils  import readCookieFromCache, appAddress, paramFromConfig, debug
+from step_utils  import readCookieFromCache, appAddress, paramFromConfig, debug, logError
 
 
 @given('отправляем авторизованный запрос на "{path}"')
@@ -20,7 +20,7 @@ def step_impl(context, path):
     r = requests.post(uri, data=context.text)
     handleResponse(r)
   except Exception:
-    debug('Unknown error', sys.exc_info)
+    logError()
     assert False
   
 @when('сохраняем объект структуры "{struct_name}"')
@@ -31,7 +31,7 @@ def step_impl(context, struct_name):
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
 
     ololo
-
+    
     uri = '%s/good/api/v3/struct/%s/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
     debug('call: %s' % uri)
     r = requests.post(uri, data=context.text)
@@ -39,7 +39,7 @@ def step_impl(context, struct_name):
     result = json.loads(r.text)
     assert 'msg' not in result
   except Exception:
-    debug('Unknown error', sys.exc_info)
+    logError()
     assert False
   
 
@@ -69,7 +69,7 @@ def step_impl(context, struct_name, id):
     assert 'list' in results
     assert len(results['list']) == 1
   except Exception:
-    debug('Unknown error', sys.exc_info)
+    logError()
     assert False
 
 
@@ -101,7 +101,7 @@ def step_impl(context, struct_name):
     for assertKey, assertValue in assertion.items():
       assert flattenItem[assertKey] == assertValue
   except Exception:
-    debug('Unknown error', sys.exc_info)
+    logError()
     assert False
 
 
