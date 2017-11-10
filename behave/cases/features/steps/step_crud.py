@@ -32,9 +32,9 @@ def step_impl(context, struct_name):
 
     uri = '%s/good/api/v3/struct/%s/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
     debug('call: %s' % uri)
-    r = requests.post(uri, data=context.text)
-    handleResponse(r)
-    result = json.loads(r.text)
+    res = requests.post(uri, data=context.text)
+    handleResponse(res)
+    result = json.loads(res.text)
     assert 'msg' not in result
   except Exception:
     logError()
@@ -54,11 +54,11 @@ def step_impl(context, struct_name, struct_id):
     uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
 
     debug('call: %s' % uri)
-    r = requests.post(uri, data=body)
-    debug(r.text)
-    # handleResponse(r)
+    res = requests.post(uri, data=body)
+    debug(res.text)
+    # handleResponse(res)
 
-    # response = json.loads(r.text)
+    # response = json.loads(res.text)
     # debug(response)
 
     # assert 'result' in response
