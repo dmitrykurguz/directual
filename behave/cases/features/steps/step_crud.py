@@ -49,6 +49,15 @@ def step_impl(context, struct_name, struct_id):
     app_id = paramFromConfig(context, 'app_id')
     app_secret = paramFromConfig(context, 'app_secret')
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
+
+    body = '{"filters":[{"operator":"AND","field":"id","value":"%s","exp":"="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}' % id
+    uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
+
+    debug('call: %s' % uri)
+    r = requests.post(uri, data=body)
+
+    debug(r.text)
+
   except Exception:
     logError()
     assert False
