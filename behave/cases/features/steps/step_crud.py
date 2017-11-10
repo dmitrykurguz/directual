@@ -61,12 +61,12 @@ def step_impl(context, struct_name, struct_id):
     # handleResponse(res)
 
     response = json.loads(res.text)
-    # debug(response)
+    # debug(response) # TODO try to uncoment, it's object, check alive test!
 
-    # assert 'result' in response
-    # results = response['result']
-    # assert 'list' in results
-    # assert len(results['list']) == 1
+    assert 'result' in response
+    results = response['result']
+    assert 'list' in results
+    assert len(results['list']) == 1
 
 
   except Exception:
