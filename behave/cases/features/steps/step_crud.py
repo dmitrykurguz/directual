@@ -30,8 +30,6 @@ def step_impl(context, struct_name):
     app_secret = paramFromConfig(context, 'app_secret')
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
 
-    ololo
-    
     uri = '%s/good/api/v3/struct/%s/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
     debug('call: %s' % uri)
     r = requests.post(uri, data=context.text)
