@@ -106,7 +106,7 @@ def step_impl(context, struct_name):
 
 
 def handleResponse(r):
-  debug('status: %s - \n%s' % (r.status_code, r.text))
+  debug('response status: %s \n response text: \n %s' % (r.status_code, r.text))
   r.raise_for_status()
 
 

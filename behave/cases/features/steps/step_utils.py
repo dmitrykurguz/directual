@@ -52,7 +52,7 @@ def paramFromConfig(context, name):
 def debug(text, info = ''):
   exc = traceback.format_exc()
   if(exc is not None):
-    info = info + '\n' + exc
+    info = '%s\n\n\n%s' % (info, exc.splitlines())
 
   allure.attach(info, name=text, attachment_type='text/plain')
 
