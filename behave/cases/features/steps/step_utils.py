@@ -64,7 +64,7 @@ def debug(text, info = ''):
 @when('ждем {count} сек')
 @then('ждем {count} сек')
 def step_impl(context, count):
-  time.sleep(count)
+  time.sleep(int(count))
 
 @when('есть кешированое значение cookie с именем {name}')
 @then('есть кешированое значение cookie с именем {name}')
