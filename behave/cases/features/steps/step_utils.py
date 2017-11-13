@@ -58,7 +58,10 @@ def debug(text, info = ''):
   if(exc is not None):
     info = '%s\n\n\n%s' % (info, exc.splitlines())
 
-  allure.attach(info, name=text, attachment_type='text/plain')
+  if isinstance(text, str) and isinstance(info, str):
+    allure.attach(info, name=text, attachment_type='text/plain')
+  else:
+    allure.attach(info, name='wrong debug message, not string', attachment_type='text/plain')
 
 @given('ждем {count} сек')
 @when('ждем {count} сек')

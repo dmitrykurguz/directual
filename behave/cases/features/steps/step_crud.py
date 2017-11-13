@@ -26,6 +26,7 @@ def step_impl(context, path):
     logError()
     assert False
   
+
 @when('сохраняем объект структуры "{struct_name}"')
 def step_impl(context, struct_name):
   try:
@@ -34,8 +35,9 @@ def step_impl(context, struct_name):
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
 
     uri = '%s/good/api/v3/struct/%s/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
-    debug('call: %s' % uri)
-    res = requests.post(uri, data=context.text)
+    body = context.text
+    debug('call: %s' % uri, body)
+    res = requests.post(uri, data=body)
     handleResponse(res)
     result = json.loads(res.text)
     assert 'msg' not in result
@@ -59,7 +61,7 @@ def step_impl(context, struct_name, struct_id):
     body = '{"filters":[{"operator":"AND","field":"id","value":"%s","exp":"="}],"fetch":"","fields":"","pageSize":10,"page":0,"ref":"","allObjects":true,"orders":[]}' % id
     uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)
 
-    debug('call: %s' % uri)
+    debug('call: %s' % uri, body)
     res = requests.post(uri, data=body)
     debug(res.text)
     # handleResponse(res)
@@ -121,8 +123,9 @@ def step_impl(context, struct_name):
 
     uri = '%s/good/api/v3/struct/%s/search/?appID=%s&appSecret=%s' % (appAddress(context), struct_name, app_id, app_secret)  
     debug('looking %s with filters: %s' % (struct_name, filters))
-    debug('call: %s' % uri)
-    r = requests.post(uri, data=json.dumps(filters))
+    body = json.dumps(filters)
+    debug('call: %s' % uri, body)
+    r = requests.post(uri, data=body)
     handleResponse(r)
 
     result = json.loads(r.text)
@@ -145,8 +148,4 @@ def step_impl(context, struct_name):
 def handleResponse(r):
   debug('response status: %s \n response text: \n %s' % (r.status_code, r.text))
   r.raise_for_status()
-
-
-
-
 
