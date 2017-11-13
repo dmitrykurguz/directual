@@ -1,6 +1,7 @@
 import sys
 import os
 import pickle
+import time
 from behave import given, when, then
 import allure
 import traceback
@@ -59,7 +60,11 @@ def debug(text, info = ''):
 
   allure.attach(info, name=text, attachment_type='text/plain')
 
-
+@given('ждем {count} сек')
+@when('ждем {count} сек')
+@then('ждем {count} сек')
+def step_impl(context, count):
+  time.sleep(count)
 
 @when('есть кешированое значение cookie с именем {name}')
 @then('есть кешированое значение cookie с именем {name}')
