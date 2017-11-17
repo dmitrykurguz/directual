@@ -55,7 +55,7 @@ def logError():
   
 def debug(text, info = ''):
   exc = traceback.format_exc()
-  if(exc is not None):
+  if(exc is not None and "['NoneType: None']" not in exc.splitlines()):
     info = '%s\n\n\n%s' % (info, exc.splitlines())
 
   if isinstance(text, str) and isinstance(info, str):
