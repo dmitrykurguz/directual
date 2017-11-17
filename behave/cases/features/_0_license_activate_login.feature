@@ -1,5 +1,5 @@
 #Feature: Licence keys
-Функционал: Лицензионные ключи и вход в систему
+Функционал: _Этап 0 - Лицензионные ключи и вход в систему
 
 #Scenario: Invalid licence key should show error message on activation
 #    Given directual page /dashboard/login
