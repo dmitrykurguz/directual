@@ -27,7 +27,9 @@ def step_impl(context, path):
     assert False
   
 
+@given('сохраняем объект структуры "{struct_name}"')
 @when('сохраняем объект структуры "{struct_name}"')
+@then('сохраняем объект структуры "{struct_name}"')
 def step_impl(context, struct_name):
   try:
     app_id = paramFromConfig(context, 'app_id')

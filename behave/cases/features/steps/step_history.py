@@ -16,8 +16,6 @@ def step_impl(context, struct_name, object_id, versions_count):
     app_secret = paramFromConfig(context, 'app_secret')
     debug('use app_id %s and app_secret %s' % (app_id, app_secret))
 
-
-
     #http://localhost:8081/good/api/v3/object/data/4283/?sessionid=34212c47-86b0-4671-943b-9b5f7920e15d
     #{"sessionid":"34212c47-86b0-4671-943b-9b5f7920e15d","history":true,"version":0,"structID":"test","objectID":"1","showLinkName":true}
 

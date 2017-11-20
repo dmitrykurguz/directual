@@ -55,7 +55,7 @@ def logError():
   
 def debug(text, info = ''):
   exc = traceback.format_exc()
-  if(exc is not None and "['NoneType: None']" not in exc.splitlines()):
+  if(exc is not None):  # FIXME - ['NoneType: None'] <- here
     info = '%s\n\n\n%s' % (info, exc.splitlines())
 
   if isinstance(text, str) and isinstance(info, str):

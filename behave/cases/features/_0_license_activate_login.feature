@@ -33,6 +33,7 @@
     Если мы вводим QEM76LDljaZhkTA0040itSdMqq4J2atX7GZSVNP3EpymLRUOvRQItcjgMI7shzYbMLJGgYMC7eTKTLD0WqebCifYWhuiyx0BkXNGaqnTUw3KMFaFe4nsdiznGxyp1xi0itPZOamO/6zVtjurfSKJS35t7WHF9cACSLkzU4+mvmA= в качестве ключа для пользователя mts
     То отображается страница входа
 
+
 @blocker
 @wip
 Сценарий: Вход в систему должен работать корректно
