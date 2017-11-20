@@ -33,9 +33,7 @@ def step_impl(context, struct_name, object_id, versions_count):
     assert 'result' in response
 
     history = response['result']['history']
-    assert len(history) == 2
-    
-    assert False
+    assert len(history) == versions_count
   except AssertionError as ex:
     raise ex
   except Exception:
