@@ -21,7 +21,11 @@ export DATASOURCE=PostgreSQLDS
 export DATASOURCE_PARAMS=
 
 
-docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
-docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml down
+#docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
+#docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml down
+
+
+docker-compose  -f docker-compose-behave-local.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
+
 
 allure serve ./reports

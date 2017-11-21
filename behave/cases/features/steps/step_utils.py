@@ -63,11 +63,11 @@ def debug(text, info = ''):
   else:
     allure.attach(info, name='wrong debug message, not string', attachment_type='text/plain')
 
-@given('ждем {count} сек')
-@when('ждем {count} сек')
-@then('ждем {count} сек')
+@given('ждем {count:f} сек')
+@when('ждем {count:f} сек')
+@then('ждем {count:f} сек')
 def step_impl(context, count):
-  time.sleep(int(count))
+  time.sleep(count)
 
 @when('есть кешированое значение cookie с именем {name}')
 @then('есть кешированое значение cookie с именем {name}')

@@ -1,0 +1,8 @@
+version: '2'
+services:
+  behave:
+    image: gitlab.directual.com:5005/docker/behave
+    volumes:
+      - ${PWD}/behave/cases:/usr/src/app/behave
+      - ${PWD}/reports:/usr/src/app/reports
+    entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://172.20.30.239:8081 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports
