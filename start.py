@@ -49,7 +49,7 @@ def main():
   
   f.close()
   
-  command = ('docker-compose -p qa-core-%s -f docker-compose-infra.yml -f docker-compose-web-ui.yml up --force-recreate -d ' % name_suffix) + scale
+  command = ('docker-compose -p qa-core-%s -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml up --force-recreate -d ' % name_suffix) + scale
   
   network_name = 'qacore%s_default' % name_suffix
   selenoid_container_name = 'selenoid-%s' % name_suffix
@@ -79,9 +79,10 @@ def main():
   
   volume_params = ' -v %s:/usr/src/app/behave -v %s:/usr/src/app/reports' % (current_path + '/behave/cases', reports_path)
   # FIXME path
-  behave_command = 'docker run --rm %s --name behave-cases-%s --network=%s gitlab.directual.com:5005/docker/behave:latest behave -D hub=http://%s:4444/wd/hub -Dapp_address=http://web_ui:8080 %s' % (volume_params, name_suffix, network_name, selenoid_container_name, report_params)
-  print 'execute: %s '% behave_command
-  os.system(behave_command)
+  #behave_command = 'docker run --rm %s --name behave-cases-%s --network=%s gitlab.directual.com:5005/docker/behave:latest behave -D hub=http://%s:4444/wd/hub -Dapp_address=http://web_ui:8080 %s' % (volume_params, name_suffix, network_name, selenoid_container_name, report_params)
+
+  # print 'execute: %s '% behave_command
+  # os.system(behave_command)
 
   #FIXME run separate compose file like in run_example.sh
   
@@ -89,7 +90,7 @@ def main():
   os.system('allure serve ' + reports_path)
   
   
-  os.system('docker-compose -f docker-compose-web-ui.yml -f docker-compose-infra.yml -p qa-core-%s down' % name_suffix)
+  os.system('docker-compose -f docker-compose-web-ui.yml -f docker-compose-infra.yml -f docker-compose-behave.yml -p qa-core-%s down' % name_suffix)
   os.system('docker stop %s' % selenoid_container_name)
   
 

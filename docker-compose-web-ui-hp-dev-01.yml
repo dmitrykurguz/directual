@@ -1,0 +1,42 @@
+version: '2'
+services:
+  web_ui:
+    image: gitlab.directual.com:5005/platform/directual-server/${WEB_UI_IMAGE}
+    ports:
+      - 8085:8080
+    depends_on:
+      - postgres
+    environment:
+      HOST_HOSTNAME: web_ui_test
+      JAVA_OPTS: 
+      GRAPHITE_HOST:
+      GRAPHITE_PORT:
+      GRAPHITE_API_URL:
+      DIRECTUAL_LOCK-SERIVCE_REDIS_HOST: ${STAGE_HOST}
+      DIRECTUAL_LOCK-SERIVCE_REDIS_PORT: 6379
+      SERVICE_REDIS_HOSTS: ${STAGE_HOST}:6379
+      DIRECTUAL_LOCK-SERVICE_REDIS_HOSTS: ${STAGE_HOST}:6379
+      DIRECTUAL_INDEXER_ELASTIC_HOSTS: ${STAGE_HOST}:9300
+      DIRECTUAL_SCENARIODATASOURCECLASS: ${DATASOURCE}
+      DIRECTUAL.SCENARIODATASOURCECLASSPARAMS: ${DATASOURCE_PARAMS}
+      # HBASE_ZOOKEEPER: 172.22.0.7
+      HBASE_ZOOKEEPER: ${STAGE_HOST}
+      # TELEGRAM_ENABLE: False
+      DATABASE_URL: jdbc:postgresql://postgres/directual
+      DATABASE_USER: directual
+      DATABASE_PASSWORD: 123456
+      # DIRECTUAL_CONFIG_PATH: /usr/local/tomcat/conf/directual.conf
+      # KAFKA_HOST: 172.22.0.7:9092
+      # KAFKA_HOST: kafka_zk:9092
+      KAFKA_HOST: ${STAGE_HOST}:9092
+      # ZOOKEEPER_QUORUM: 172.22.0.7:2181
+      ZOOKEEPER_QUORUM: ${STAGE_HOST}:2181
+      DERECTUAL_UI_TYPE: PORTAL
+      DIRECTUAL_UPLOADPATH: /tmp
+      DIRECTUAL_APPLICATIONKEYS_DEFAULTAPPID: ${TEST_APP_ID}
+      DIRECTUAL_APPLICATIONKEYS_DEFAULTSECRET: ${TEST_APP_SECRET}
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8080/good/v4/healthcheck/"]
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 3

@@ -1,0 +1,10 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: directual
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: directual
