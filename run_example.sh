@@ -9,8 +9,8 @@
 
 
 
-#export WEB_UI_IMAGE_TAG=local-test-web-ui:5
-export WEB_UI_IMAGE_TAG=gitlab.directual.com:5005/platform/directual-server/web-ui:2.0.19
+export WEB_UI_IMAGE_TAG=test/local-test-web-ui:5
+#export WEB_UI_IMAGE_TAG=gitlab.directual.com:5005/platform/directual-server/web-ui:2.0.19
 
 export COMPOSE_PROJECT_NAME=qacorelocal
 
@@ -24,11 +24,13 @@ export DATASOURCE=PostgreSQLDS
 export DATASOURCE_PARAMS=
 
 
-#docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
-#docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml down
+docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
 
 
-docker-compose  -f docker-compose-behave-local.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
 
+docker-compose  -f docker-compose-behave.yml -f docker-compose-selenoid.yml up --abort-on-container-exit --force-recreate
+
+
+docker-compose -f docker-compose-infra.yml -f docker-compose-web-ui.yml -f docker-compose-behave.yml -f docker-compose-selenoid.yml down
 
 allure serve ./reports
