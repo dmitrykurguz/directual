@@ -8,7 +8,10 @@
 
 
 
-export WEB_UI_IMAGE_TAG=local-test-web-ui:5
+
+#export WEB_UI_IMAGE_TAG=local-test-web-ui:5
+export WEB_UI_IMAGE_TAG=gitlab.directual.com:5005/platform/directual-server/web-ui:2.0.19
+
 export COMPOSE_PROJECT_NAME=qacorelocal
 
 echo "using project name $COMPOSE_PROJECT_NAME"
