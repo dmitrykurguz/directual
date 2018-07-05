@@ -5,4 +5,6 @@ services:
     volumes:
       - ${PWD}/behave/cases:/usr/src/app/behave
       - ${PWD}/reports:/usr/src/app/reports
-    entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://172.20.30.239:8081 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports
+    entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://172.26.0.4:8080 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports
+    # entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://localhost:8085 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports
+    # entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://web-ui:8080 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports

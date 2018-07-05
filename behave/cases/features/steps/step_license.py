@@ -33,6 +33,8 @@ def before_feature(context, feature):
 def step_impl(context, path):
   try:
     context.browser.get(appAddress(context) + path)
+    allure.attach(context.browser.get_screenshot_as_png(),
+                  name='open_page_%s' % path, attachment_type=allure.attachment_type.PNG)
   except Exception:
     logError()
     assert False
