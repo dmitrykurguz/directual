@@ -7,6 +7,7 @@ import allure
 import traceback
 
 from google.protobuf import text_format
+from functools import reduce
 
 
 #----------------------UTILS---------------
@@ -68,8 +69,6 @@ def debug(text, info = ''):
   else:
     allure.attach(info, name='wrong debug message, not string', attachment_type='text/plain')
 
-
-from functools import reduce
 
 def deepgetattr(obj, path):
     return reduce(getattr, path.split('.'), obj)

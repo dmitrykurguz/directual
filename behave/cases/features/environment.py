@@ -1,13 +1,20 @@
 import sys
 import os
 import time
+import grpc
+
 from os.path import join
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+# import sys
+# sys.path.append('./steps')
 
+# import steps . directualprotos
+# from steps import MetadataRemoteServiceStub
 
+from steps . directualproto . MetadataRemoteService_pb2_grpc import MetadataRemoteServiceStub
 def before_all(context):
-  time.sleep(10) # wait for selenoid
+  # time.sleep(10) # wait for selenoid
 
   os = 'mac'
   hub = None
@@ -70,5 +77,19 @@ def before_scenario(context, scenario):
     if "skip" in scenario.effective_tags:
         scenario.skip("Marked with @skip")
         return
+    if "metadata-service" in scenario.effective_tags:
+        if not hasattr(context, 'metadataChannel'):
+          metadata_address = context.config.userdata['metadata_address']
+          context.metadataChannel = grpc.insecure_channel(metadata_address)
+          context.metadataServiceStub = MetadataRemoteServiceStub(context.metadataChannel)
+
+
+def after_scenario(context, scenario):
+    if "metadata-service" in scenario.effective_tags:
+      if hasattr(context, 'metadataChannel'):
+        context.metadataChannel.close()
+        del context.metadataChannel
+        del context.metadataServiceStub
+
 
     # Whatever other things you might want to do in this hook go here.
