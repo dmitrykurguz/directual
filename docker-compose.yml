@@ -6,9 +6,10 @@ services:
       - "$PWD/nginx/nginx.conf:/etc/nginx/nginx.conf"
   web_ui:
     mem_limit: 1024M
-    image: gitlab.directual.com:5005/devops/ops-mts-bank/platform/web-ui:plt-1132-ibmmq-integration
+    image: gitlab.directual.com:5005/devops/ops-mts-bank/platform/web-ui:870-remote-0.1
     env_file:
       - ./env/directual.env
+      - ./env/webui.remote.env
     ports:
       - "8080:8080"
     depends_on:
@@ -69,19 +70,51 @@ services:
       - kafka
     environment:
       JAVA_OPTS: "-server -Xms256m -Xmx1024m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9011 -Dcom.sun.management.jmxremote.rmi.port=9011 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost"
+  metadata-service:
+    mem_limit: 256M
+    image: gitlab.directual.com:5005/platform/directual-server/metadata-service:0.0.1
+    ports:
+      - "12345:12345"
+    env_file:
+    - ./env/directual.env
+    depends_on:
+      - postgres
+    environment:
+      JAVA_OPTS: "-server -Xms128m -Xmx256m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9011 -Dcom.sun.management.jmxremote.rmi.port=9011 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost"
+  mongodb-service:
+    mem_limit: 512M
+    image: gitlab.directual.com:5005/platform/directual-server/mongodb-service:0.0.1
+    ports:
+      - "12341:12341"
+    env_file:
+    - ./env/directual.env
+    - ./env/mongodb-service.env
+    depends_on:
+      - metadata-service
+      - mongo
+    environment:
+      METADATA_REMOTE_SERVICE_HOSTS: "metadata-service:12345"
+      JAVA_OPTS: "-server -Xms128m -Xmx512m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9011 -Dcom.sun.management.jmxremote.rmi.port=9011 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost"
+
 ### infra ###
   mongo:
     image: mongo:3.6
     command: --wiredTigerCacheSizeGB 1
+    ports:
+      - 27017:27017
     volumes:
       - mongo_conf:/data/configdb
       - mongo_data:/data/db
   redis:
     mem_limit: 256M
+    ports:
+      - 6379:6379
     image: redis:4
   redis_object_cache:
     mem_limit: 256M
     image: redis:4
+    ports:
+      - 6380:6379
   postgres:
     mem_limit: 256M
     image: postgres:9.5.1
@@ -94,12 +127,17 @@ services:
   zookeeper:
     mem_limit: 256M
     image: twwlf/zookeeper:3.4.11
+    ports:
+      - 2181:2181
     volumes:
       - zk_conf:/opt/zookeeper-3.4.11/conf
       - zk_data:/opt/zookeeper-3.4.11/data
   kafka:
     mem_limit: 1024M
     image: twwlf/kafka:1.1.0
+    ports:
+      - 9092:9092
+      - 9094:9094
     env_file:
       - ./env/kafka.local.env
     depends_on:
@@ -110,12 +148,15 @@ services:
     image: gitlab.directual.com:5005/docker/behave
     depends_on:
       - web_ui
+      - nginx_proxy
     volumes:
       - ${PWD}/behave/cases:/usr/src/app/behave
       - ${PWD}/reports:/usr/src/app/reports
     entrypoint: behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://nginx_proxy:81 -f allure_behave.formatter:AllureFormatter -o /usr/src/app/reports
   selenoid:
     image: "aerokube/selenoid"
+    ports:
+      - 4444:4444
     command: -container-network ${COMPOSE_PROJECT_NAME}_default -enable-file-upload -timeout 5m
     volumes:
       - "$PWD/selenoid:/etc/selenoid/" 

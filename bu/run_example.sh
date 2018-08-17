@@ -94,7 +94,8 @@ allure serve ./reports
 # docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ${HOME}:/root -e OVERRIDE_HOME=${HOME} aerokube/cm:latest-release selenoid start --vnc --tmpfs 128 -g "--container-network qacorelocal_default"
 # docker run --rm -v /Users/onexdrk/directual/qa-core/behave/cases:/usr/src/app/behave --name behave-cases --network=qacorelocal_default behave behave -D hub=http://selenoid:4444/wd/hub -Dapp_address=http://web_ui:8080
 
-
+#local
+# docker run --rm -v /Users/onexdrk/directual/qa-core/behave/cases:/usr/src/app/behave --name behave-cases --network=host gitlab.directual.com:5005/docker/behave behave -D hub=http://127.0.0.1:4444/wd/hub -Dapp_address=http://127.0.0.1:8081
 
 #---------------------------------
 

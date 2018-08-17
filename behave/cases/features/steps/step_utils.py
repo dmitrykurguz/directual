@@ -6,6 +6,8 @@ from behave import given, when, then
 import allure
 import traceback
 
+from google.protobuf import text_format
+
 
 #----------------------UTILS---------------
 #@when('add cookie {name} value {value} to cache')
@@ -58,10 +60,38 @@ def debug(text, info = ''):
   if(exc is not None):  # FIXME - ['NoneType: None'] <- here
     info = '%s\n\n\n%s' % (info, exc.splitlines())
 
+  print(text)
+  print(info)
+
   if isinstance(text, str) and isinstance(info, str):
     allure.attach(info, name=text, attachment_type='text/plain')
   else:
     allure.attach(info, name='wrong debug message, not string', attachment_type='text/plain')
+
+
+from functools import reduce
+
+def deepgetattr(obj, path):
+    return reduce(getattr, path.split('.'), obj)
+
+
+def safe(function):
+    try:
+        function()
+    except AssertionError as ex:
+        raise ex
+    except Exception:
+        logError()
+        assert False
+
+def assertEq(left, right):
+  assert left == right, '%s != %s' % (left, right)
+
+
+def debugProto(text, proto):
+  protoStr = '%s:\n%s' % (type(proto), text_format.MessageToString(proto))
+  debug(text, protoStr)
+
 
 @given('ждем {count:f} сек')
 @when('ждем {count:f} сек')

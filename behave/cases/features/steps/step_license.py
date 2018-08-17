@@ -83,7 +83,7 @@ def step_impl(context, login, pwd):
   allure.attach(context.browser.get_screenshot_as_png(), name='before_login', attachment_type=allure.attachment_type.PNG)
   context.browser.find_element_by_css_selector('input[type=submit]').click()
   waitForDashboardPageBeingReady()
-  time.sleep(30)
+  time.sleep(25) # FIXME remove
   allure.attach(context.browser.get_screenshot_as_png(), name='after_login', attachment_type=allure.attachment_type.PNG)
   waitForLoaderHide()
   
