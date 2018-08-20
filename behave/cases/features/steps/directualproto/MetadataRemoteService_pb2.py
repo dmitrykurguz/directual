@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='MetadataRemoteService.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x1bMetadataRemoteService.proto\x1a\tDTO.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1b\x43ommonRequestResponse.proto2\xc3\x04\n\x15MetadataRemoteService\x12\x38\n\x04Ping\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x45\n\nClearCache\x12\x1d.NetworkIDWithStructIDRequest\x1a\x16.google.protobuf.Empty\"\x00\x12@\n\x08\x46indByID\x12\x1d.NetworkIDWithStructIDRequest\x1a\x13.StructureOptionDTO\"\x00\x12J\n\rFindBySysName\x12\".NetworkIDWithStructSysNameRequest\x1a\x13.StructureOptionDTO\"\x00\x12\x39\n\x0f\x46indByNetworkID\x12\x11.NetworkIDRequest\x1a\x11.StructureListDTO\"\x00\x12T\n\x17\x46indWithoutSystemFields\x12\".NetworkIDWithStructSysNameRequest\x1a\x13.StructureOptionDTO\"\x00\x12>\n\x10\x46indAllBySysName\x12\x15.StructSysNameRequest\x1a\x11.StructureListDTO\"\x00\x12J\n\x1aScenarioDirectoriesMapping\x12\x11.NetworkIDRequest\x1a\x17.ScenarioDirectoruesDTO\"\x00\x42\x33\n com.directual.generated.servicesB\rMetadataProtoP\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x1bMetadataRemoteService.proto\x1a\tDTO.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1b\x43ommonRequestResponse.proto2\xd8\x05\n\x15MetadataRemoteService\x12\x38\n\x04Ping\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x45\n\nClearCache\x12\x1d.NetworkIDWithStructIDRequest\x1a\x16.google.protobuf.Empty\"\x00\x12_\n\x0fRemoveBySysName\x12\x32.NetworkIDWithStructSysNameRequestAndUserIDRequest\x1a\x16.google.protobuf.Empty\"\x00\x12\x32\n\x06\x43reate\x12\x17.CreateStructureRequest\x1a\r.StructureDTO\"\x00\x12@\n\x08\x46indByID\x12\x1d.NetworkIDWithStructIDRequest\x1a\x13.StructureOptionDTO\"\x00\x12J\n\rFindBySysName\x12\".NetworkIDWithStructSysNameRequest\x1a\x13.StructureOptionDTO\"\x00\x12\x39\n\x0f\x46indByNetworkID\x12\x11.NetworkIDRequest\x1a\x11.StructureListDTO\"\x00\x12T\n\x17\x46indWithoutSystemFields\x12\".NetworkIDWithStructSysNameRequest\x1a\x13.StructureOptionDTO\"\x00\x12>\n\x10\x46indAllBySysName\x12\x15.StructSysNameRequest\x1a\x11.StructureListDTO\"\x00\x12J\n\x1aScenarioDirectoriesMapping\x12\x11.NetworkIDRequest\x1a\x17.ScenarioDirectoruesDTO\"\x00\x42\x33\n com.directual.generated.servicesB\rMetadataProtoP\x01\x62\x06proto3')
   ,
   dependencies=[DTO__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,CommonRequestResponse__pb2.DESCRIPTOR,])
 
@@ -41,7 +41,7 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   options=None,
   serialized_start=101,
-  serialized_end=680,
+  serialized_end=829,
   methods=[
   _descriptor.MethodDescriptor(
     name='Ping',
@@ -62,9 +62,27 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
     options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='RemoveBySysName',
+    full_name='MetadataRemoteService.RemoveBySysName',
+    index=2,
+    containing_service=None,
+    input_type=CommonRequestResponse__pb2._NETWORKIDWITHSTRUCTSYSNAMEREQUESTANDUSERIDREQUEST,
+    output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Create',
+    full_name='MetadataRemoteService.Create',
+    index=3,
+    containing_service=None,
+    input_type=CommonRequestResponse__pb2._CREATESTRUCTUREREQUEST,
+    output_type=DTO__pb2._STRUCTUREDTO,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='FindByID',
     full_name='MetadataRemoteService.FindByID',
-    index=2,
+    index=4,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDWITHSTRUCTIDREQUEST,
     output_type=DTO__pb2._STRUCTUREOPTIONDTO,
@@ -73,7 +91,7 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='FindBySysName',
     full_name='MetadataRemoteService.FindBySysName',
-    index=3,
+    index=5,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDWITHSTRUCTSYSNAMEREQUEST,
     output_type=DTO__pb2._STRUCTUREOPTIONDTO,
@@ -82,7 +100,7 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='FindByNetworkID',
     full_name='MetadataRemoteService.FindByNetworkID',
-    index=4,
+    index=6,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDREQUEST,
     output_type=DTO__pb2._STRUCTURELISTDTO,
@@ -91,7 +109,7 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='FindWithoutSystemFields',
     full_name='MetadataRemoteService.FindWithoutSystemFields',
-    index=5,
+    index=7,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDWITHSTRUCTSYSNAMEREQUEST,
     output_type=DTO__pb2._STRUCTUREOPTIONDTO,
@@ -100,7 +118,7 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='FindAllBySysName',
     full_name='MetadataRemoteService.FindAllBySysName',
-    index=6,
+    index=8,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._STRUCTSYSNAMEREQUEST,
     output_type=DTO__pb2._STRUCTURELISTDTO,
@@ -109,7 +127,7 @@ _METADATAREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ScenarioDirectoriesMapping',
     full_name='MetadataRemoteService.ScenarioDirectoriesMapping',
-    index=7,
+    index=9,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDREQUEST,
     output_type=CommonRequestResponse__pb2._SCENARIODIRECTORUESDTO,

@@ -26,6 +26,16 @@ class MetadataRemoteServiceStub(object):
         request_serializer=CommonRequestResponse__pb2.NetworkIDWithStructIDRequest.SerializeToString,
         response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
         )
+    self.RemoveBySysName = channel.unary_unary(
+        '/MetadataRemoteService/RemoveBySysName',
+        request_serializer=CommonRequestResponse__pb2.NetworkIDWithStructSysNameRequestAndUserIDRequest.SerializeToString,
+        response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+        )
+    self.Create = channel.unary_unary(
+        '/MetadataRemoteService/Create',
+        request_serializer=CommonRequestResponse__pb2.CreateStructureRequest.SerializeToString,
+        response_deserializer=DTO__pb2.StructureDTO.FromString,
+        )
     self.FindByID = channel.unary_unary(
         '/MetadataRemoteService/FindByID',
         request_serializer=CommonRequestResponse__pb2.NetworkIDWithStructIDRequest.SerializeToString,
@@ -70,6 +80,20 @@ class MetadataRemoteServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def ClearCache(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def RemoveBySysName(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def Create(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -130,6 +154,16 @@ def add_MetadataRemoteServiceServicer_to_server(servicer, server):
           servicer.ClearCache,
           request_deserializer=CommonRequestResponse__pb2.NetworkIDWithStructIDRequest.FromString,
           response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+      ),
+      'RemoveBySysName': grpc.unary_unary_rpc_method_handler(
+          servicer.RemoveBySysName,
+          request_deserializer=CommonRequestResponse__pb2.NetworkIDWithStructSysNameRequestAndUserIDRequest.FromString,
+          response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+      ),
+      'Create': grpc.unary_unary_rpc_method_handler(
+          servicer.Create,
+          request_deserializer=CommonRequestResponse__pb2.CreateStructureRequest.FromString,
+          response_serializer=DTO__pb2.StructureDTO.SerializeToString,
       ),
       'FindByID': grpc.unary_unary_rpc_method_handler(
           servicer.FindByID,

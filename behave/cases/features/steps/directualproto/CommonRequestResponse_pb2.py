@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='CommonRequestResponse.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x1b\x43ommonRequestResponse.proto\x1a\tDTO.proto\x1a\x1egoogle/protobuf/wrappers.proto\"%\n\x10NetworkIDRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\"C\n\x1cNetworkIDWithStructIDRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\"G\n!NetworkIDWithStructSysNameRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x0f\n\x07sysName\x18\x02 \x01(\t\"\'\n\x14StructSysNameRequest\x12\x0f\n\x07sysName\x18\x01 \x01(\t\"]\n&NetworkIDWithStructIDWithFieldsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x0e\n\x06\x66ields\x18\x03 \x03(\t\"l\n&NetworkIDWithScenarioObjectListRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12/\n\x0fscenarioObjects\x18\x02 \x01(\x0b\x32\x16.ScenarioObjectListDTO\"}\n!BasicScenarioObjWithFieldsRequest\x12!\n\x03obj\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12\x0e\n\x06\x66ields\x18\x02 \x03(\t\x12%\n\nstructInfo\x18\x03 \x01(\x0b\x32\x11.StructureInfoDTO\"\xa2\x01\n2NetworkIDWithStructIDWithObjectIDWithFieldsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x10\n\x08objectID\x18\x03 \x01(\t\x12\x0e\n\x06\x66ields\x18\x04 \x03(\t\x12%\n\nstructInfo\x18\x05 \x01(\x0b\x32\x11.StructureInfoDTO\"\x95\x01\n.BasicScenarioObjWithMaxVersionWithFieldRequest\x12!\n\x03obj\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12\x13\n\x0bmaxVersions\x18\x02 \x01(\r\x12+\n\x05\x66ield\x18\x03 \x01(\x0b\x32\x1c.google.protobuf.StringValue\"_\n\x12\x42uildReportRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12$\n\x08settings\x18\x03 \x01(\x0b\x32\x12.ReportSettingsDTO\"w\n&ScenarioObjectDTOWrapperWithStructInfo\x12&\n\x03\x64to\x18\x01 \x01(\x0b\x32\x19.ScenarioObjectDTOWrapper\x12%\n\nstructInfo\x18\x02 \x01(\x0b\x32\x11.StructureInfoDTO\"\xa5\x02\n4NetworkIDWithScenarioObjectListRequestWithStructInfo\x12\x34\n\x03\x64to\x18\x01 \x01(\x0b\x32\'.NetworkIDWithScenarioObjectListRequest\x12i\n\x12structInfoByStruct\x18\x02 \x03(\x0b\x32M.NetworkIDWithScenarioObjectListRequestWithStructInfo.StructInfoByStructEntry\x1aL\n\x17StructInfoByStructEntry\x12\x0b\n\x03key\x18\x01 \x01(\x03\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.StructureInfoDTO:\x02\x38\x01\"m\n!BasicScenarioObjDTOWithStructInfo\x12!\n\x03\x64to\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12%\n\nstructInfo\x18\x02 \x01(\x0b\x32\x11.StructureInfoDTO\"\xa8\x01\n\x15\x46ieldsWithDataRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x10\n\x08objectID\x18\x03 \x01(\t\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x0b\n\x03who\x18\x05 \x01(\t\x12$\n\x06\x66ields\x18\x06 \x03(\x0b\x32\x14.ExpressionResultDto\"{\n\x0fVersionsRequest\x12!\n\x03\x64to\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12\x13\n\x0bmaxVersions\x18\x02 \x01(\x03\x12\x0e\n\x06\x66ields\x18\x03 \x03(\t\x12 \n\tpaginator\x18\x04 \x01(\x0b\x32\r.PaginatorDTO\"\x81\x01\n\x11StructListRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12 \n\tpaginator\x18\x03 \x01(\x0b\x32\r.PaginatorDTO\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\"\xbd\x01\n\rExistsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x0b\n\x03ids\x18\x03 \x03(\t\x12\x12\n\nfieldNames\x18\x04 \x03(\t\x12\x33\n\x0etimerangeStart\x18\x05 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\x12\x31\n\x0ctimerangeEnd\x18\x06 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\"\xcf\x01\n\x11\x46indObjectRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12%\n\nstructInfo\x18\x03 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x1b\n\x07\x66ilters\x18\x04 \x03(\x0b\x32\n.FilterDTO\x12 \n\tpaginator\x18\x05 \x01(\x0b\x32\r.PaginatorDTO\x12/\n\x0b\x65xcludeDate\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.BoolValue\"\x8f\x02\n\x14ProcessObjectRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x12\n\nfieldNames\x18\x03 \x03(\t\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x33\n\x0etimerangeStart\x18\x05 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\x12\x31\n\x0ctimerangeEnd\x18\x06 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\x12/\n\x0b\x63\x61\x63heSearch\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.BoolValue\"\x81\x01\n\x12\x42\x61tchFieldsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x0b\n\x03ids\x18\x03 \x03(\t\x12\x12\n\nfieldNames\x18\x04 \x03(\t\x12%\n\nstructInfo\x18\x05 \x01(\x0b\x32\x11.StructureInfoDTO\"\xb0\x01\n\x16SimpleAggregateRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x1b\n\x07\x66ilters\x18\x03 \x03(\x0b\x32\n.FilterDTO\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x18\n\x10\x61ggregationField\x18\x05 \x01(\t\x12\x13\n\x0b\x61ggregation\x18\x06 \x01(\t\"\x85\x01\n\x11ObjectPathRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12(\n\x05value\x18\x02 \x01(\x0b\x32\x19.ScenarioObjectDTOWrapper\x12\x0c\n\x04path\x18\x03 \x01(\t\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\"y\n\x16ScenarioDirectoruesDTO\x12\x31\n\x05value\x18\x01 \x03(\x0b\x32\".ScenarioDirectoruesDTO.ValueEntry\x1a,\n\nValueEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x42\n)com.directual.generated.services.requestsB\x13\x43ommonRequestsProtoP\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x1b\x43ommonRequestResponse.proto\x1a\tDTO.proto\x1a\x1egoogle/protobuf/wrappers.proto\"%\n\x10NetworkIDRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\"C\n\x1cNetworkIDWithStructIDRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\"G\n!NetworkIDWithStructSysNameRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x0f\n\x07sysName\x18\x02 \x01(\t\"g\n1NetworkIDWithStructSysNameRequestAndUserIDRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x0f\n\x07sysName\x18\x02 \x01(\t\x12\x0e\n\x06userID\x18\x03 \x01(\x03\"Z\n\x16\x43reateStructureRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x1d\n\x06struct\x18\x02 \x01(\x0b\x32\r.StructureDTO\x12\x0e\n\x06userID\x18\x03 \x01(\x03\"\'\n\x14StructSysNameRequest\x12\x0f\n\x07sysName\x18\x01 \x01(\t\"]\n&NetworkIDWithStructIDWithFieldsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x0e\n\x06\x66ields\x18\x03 \x03(\t\"l\n&NetworkIDWithScenarioObjectListRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12/\n\x0fscenarioObjects\x18\x02 \x01(\x0b\x32\x16.ScenarioObjectListDTO\"}\n!BasicScenarioObjWithFieldsRequest\x12!\n\x03obj\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12\x0e\n\x06\x66ields\x18\x02 \x03(\t\x12%\n\nstructInfo\x18\x03 \x01(\x0b\x32\x11.StructureInfoDTO\"\xa2\x01\n2NetworkIDWithStructIDWithObjectIDWithFieldsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x10\n\x08objectID\x18\x03 \x01(\t\x12\x0e\n\x06\x66ields\x18\x04 \x03(\t\x12%\n\nstructInfo\x18\x05 \x01(\x0b\x32\x11.StructureInfoDTO\"\x95\x01\n.BasicScenarioObjWithMaxVersionWithFieldRequest\x12!\n\x03obj\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12\x13\n\x0bmaxVersions\x18\x02 \x01(\r\x12+\n\x05\x66ield\x18\x03 \x01(\x0b\x32\x1c.google.protobuf.StringValue\"_\n\x12\x42uildReportRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12$\n\x08settings\x18\x03 \x01(\x0b\x32\x12.ReportSettingsDTO\"w\n&ScenarioObjectDTOWrapperWithStructInfo\x12&\n\x03\x64to\x18\x01 \x01(\x0b\x32\x19.ScenarioObjectDTOWrapper\x12%\n\nstructInfo\x18\x02 \x01(\x0b\x32\x11.StructureInfoDTO\"\xa5\x02\n4NetworkIDWithScenarioObjectListRequestWithStructInfo\x12\x34\n\x03\x64to\x18\x01 \x01(\x0b\x32\'.NetworkIDWithScenarioObjectListRequest\x12i\n\x12structInfoByStruct\x18\x02 \x03(\x0b\x32M.NetworkIDWithScenarioObjectListRequestWithStructInfo.StructInfoByStructEntry\x1aL\n\x17StructInfoByStructEntry\x12\x0b\n\x03key\x18\x01 \x01(\x03\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.StructureInfoDTO:\x02\x38\x01\"m\n!BasicScenarioObjDTOWithStructInfo\x12!\n\x03\x64to\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12%\n\nstructInfo\x18\x02 \x01(\x0b\x32\x11.StructureInfoDTO\"\xa8\x01\n\x15\x46ieldsWithDataRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x10\n\x08objectID\x18\x03 \x01(\t\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x0b\n\x03who\x18\x05 \x01(\t\x12$\n\x06\x66ields\x18\x06 \x03(\x0b\x32\x14.ExpressionResultDto\"{\n\x0fVersionsRequest\x12!\n\x03\x64to\x18\x01 \x01(\x0b\x32\x14.BasicScenarioObjDTO\x12\x13\n\x0bmaxVersions\x18\x02 \x01(\x03\x12\x0e\n\x06\x66ields\x18\x03 \x03(\t\x12 \n\tpaginator\x18\x04 \x01(\x0b\x32\r.PaginatorDTO\"\x81\x01\n\x11StructListRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12 \n\tpaginator\x18\x03 \x01(\x0b\x32\r.PaginatorDTO\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\"\xbd\x01\n\rExistsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x0b\n\x03ids\x18\x03 \x03(\t\x12\x12\n\nfieldNames\x18\x04 \x03(\t\x12\x33\n\x0etimerangeStart\x18\x05 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\x12\x31\n\x0ctimerangeEnd\x18\x06 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\"\xcf\x01\n\x11\x46indObjectRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12%\n\nstructInfo\x18\x03 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x1b\n\x07\x66ilters\x18\x04 \x03(\x0b\x32\n.FilterDTO\x12 \n\tpaginator\x18\x05 \x01(\x0b\x32\r.PaginatorDTO\x12/\n\x0b\x65xcludeDate\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.BoolValue\"\x8f\x02\n\x14ProcessObjectRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x12\n\nfieldNames\x18\x03 \x03(\t\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x33\n\x0etimerangeStart\x18\x05 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\x12\x31\n\x0ctimerangeEnd\x18\x06 \x01(\x0b\x32\x1b.google.protobuf.Int64Value\x12/\n\x0b\x63\x61\x63heSearch\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.BoolValue\"\x81\x01\n\x12\x42\x61tchFieldsRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x0b\n\x03ids\x18\x03 \x03(\t\x12\x12\n\nfieldNames\x18\x04 \x03(\t\x12%\n\nstructInfo\x18\x05 \x01(\x0b\x32\x11.StructureInfoDTO\"\xb0\x01\n\x16SimpleAggregateRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12\x10\n\x08structID\x18\x02 \x01(\x03\x12\x1b\n\x07\x66ilters\x18\x03 \x03(\x0b\x32\n.FilterDTO\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\x12\x18\n\x10\x61ggregationField\x18\x05 \x01(\t\x12\x13\n\x0b\x61ggregation\x18\x06 \x01(\t\"\x85\x01\n\x11ObjectPathRequest\x12\x11\n\tnetworkID\x18\x01 \x01(\x03\x12(\n\x05value\x18\x02 \x01(\x0b\x32\x19.ScenarioObjectDTOWrapper\x12\x0c\n\x04path\x18\x03 \x01(\t\x12%\n\nstructInfo\x18\x04 \x01(\x0b\x32\x11.StructureInfoDTO\"y\n\x16ScenarioDirectoruesDTO\x12\x31\n\x05value\x18\x01 \x03(\x0b\x32\".ScenarioDirectoruesDTO.ValueEntry\x1a,\n\nValueEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x42\n)com.directual.generated.services.requestsB\x13\x43ommonRequestsProtoP\x01\x62\x06proto3')
   ,
   dependencies=[DTO__pb2.DESCRIPTOR,google_dot_protobuf_dot_wrappers__pb2.DESCRIPTOR,])
 
@@ -135,6 +135,96 @@ _NETWORKIDWITHSTRUCTSYSNAMEREQUEST = _descriptor.Descriptor(
 )
 
 
+_NETWORKIDWITHSTRUCTSYSNAMEREQUESTANDUSERIDREQUEST = _descriptor.Descriptor(
+  name='NetworkIDWithStructSysNameRequestAndUserIDRequest',
+  full_name='NetworkIDWithStructSysNameRequestAndUserIDRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='networkID', full_name='NetworkIDWithStructSysNameRequestAndUserIDRequest.networkID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='sysName', full_name='NetworkIDWithStructSysNameRequestAndUserIDRequest.sysName', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='userID', full_name='NetworkIDWithStructSysNameRequestAndUserIDRequest.userID', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=255,
+  serialized_end=358,
+)
+
+
+_CREATESTRUCTUREREQUEST = _descriptor.Descriptor(
+  name='CreateStructureRequest',
+  full_name='CreateStructureRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='networkID', full_name='CreateStructureRequest.networkID', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='struct', full_name='CreateStructureRequest.struct', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='userID', full_name='CreateStructureRequest.userID', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=360,
+  serialized_end=450,
+)
+
+
 _STRUCTSYSNAMEREQUEST = _descriptor.Descriptor(
   name='StructSysNameRequest',
   full_name='StructSysNameRequest',
@@ -161,8 +251,8 @@ _STRUCTSYSNAMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=255,
-  serialized_end=294,
+  serialized_start=452,
+  serialized_end=491,
 )
 
 
@@ -206,8 +296,8 @@ _NETWORKIDWITHSTRUCTIDWITHFIELDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=296,
-  serialized_end=389,
+  serialized_start=493,
+  serialized_end=586,
 )
 
 
@@ -244,8 +334,8 @@ _NETWORKIDWITHSCENARIOOBJECTLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=391,
-  serialized_end=499,
+  serialized_start=588,
+  serialized_end=696,
 )
 
 
@@ -289,8 +379,8 @@ _BASICSCENARIOOBJWITHFIELDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=501,
-  serialized_end=626,
+  serialized_start=698,
+  serialized_end=823,
 )
 
 
@@ -348,8 +438,8 @@ _NETWORKIDWITHSTRUCTIDWITHOBJECTIDWITHFIELDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=629,
-  serialized_end=791,
+  serialized_start=826,
+  serialized_end=988,
 )
 
 
@@ -393,8 +483,8 @@ _BASICSCENARIOOBJWITHMAXVERSIONWITHFIELDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=794,
-  serialized_end=943,
+  serialized_start=991,
+  serialized_end=1140,
 )
 
 
@@ -438,8 +528,8 @@ _BUILDREPORTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=945,
-  serialized_end=1040,
+  serialized_start=1142,
+  serialized_end=1237,
 )
 
 
@@ -476,8 +566,8 @@ _SCENARIOOBJECTDTOWRAPPERWITHSTRUCTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1042,
-  serialized_end=1161,
+  serialized_start=1239,
+  serialized_end=1358,
 )
 
 
@@ -514,8 +604,8 @@ _NETWORKIDWITHSCENARIOOBJECTLISTREQUESTWITHSTRUCTINFO_STRUCTINFOBYSTRUCTENTRY = 
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1381,
-  serialized_end=1457,
+  serialized_start=1578,
+  serialized_end=1654,
 )
 
 _NETWORKIDWITHSCENARIOOBJECTLISTREQUESTWITHSTRUCTINFO = _descriptor.Descriptor(
@@ -551,8 +641,8 @@ _NETWORKIDWITHSCENARIOOBJECTLISTREQUESTWITHSTRUCTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1164,
-  serialized_end=1457,
+  serialized_start=1361,
+  serialized_end=1654,
 )
 
 
@@ -589,8 +679,8 @@ _BASICSCENARIOOBJDTOWITHSTRUCTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1459,
-  serialized_end=1568,
+  serialized_start=1656,
+  serialized_end=1765,
 )
 
 
@@ -655,8 +745,8 @@ _FIELDSWITHDATAREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1571,
-  serialized_end=1739,
+  serialized_start=1768,
+  serialized_end=1936,
 )
 
 
@@ -707,8 +797,8 @@ _VERSIONSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1741,
-  serialized_end=1864,
+  serialized_start=1938,
+  serialized_end=2061,
 )
 
 
@@ -759,8 +849,8 @@ _STRUCTLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1867,
-  serialized_end=1996,
+  serialized_start=2064,
+  serialized_end=2193,
 )
 
 
@@ -825,8 +915,8 @@ _EXISTSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1999,
-  serialized_end=2188,
+  serialized_start=2196,
+  serialized_end=2385,
 )
 
 
@@ -891,8 +981,8 @@ _FINDOBJECTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2191,
-  serialized_end=2398,
+  serialized_start=2388,
+  serialized_end=2595,
 )
 
 
@@ -964,8 +1054,8 @@ _PROCESSOBJECTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2401,
-  serialized_end=2672,
+  serialized_start=2598,
+  serialized_end=2869,
 )
 
 
@@ -1023,8 +1113,8 @@ _BATCHFIELDSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2675,
-  serialized_end=2804,
+  serialized_start=2872,
+  serialized_end=3001,
 )
 
 
@@ -1089,8 +1179,8 @@ _SIMPLEAGGREGATEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2807,
-  serialized_end=2983,
+  serialized_start=3004,
+  serialized_end=3180,
 )
 
 
@@ -1141,8 +1231,8 @@ _OBJECTPATHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2986,
-  serialized_end=3119,
+  serialized_start=3183,
+  serialized_end=3316,
 )
 
 
@@ -1179,8 +1269,8 @@ _SCENARIODIRECTORUESDTO_VALUEENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3198,
-  serialized_end=3242,
+  serialized_start=3395,
+  serialized_end=3439,
 )
 
 _SCENARIODIRECTORUESDTO = _descriptor.Descriptor(
@@ -1209,10 +1299,11 @@ _SCENARIODIRECTORUESDTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3121,
-  serialized_end=3242,
+  serialized_start=3318,
+  serialized_end=3439,
 )
 
+_CREATESTRUCTUREREQUEST.fields_by_name['struct'].message_type = DTO__pb2._STRUCTUREDTO
 _NETWORKIDWITHSCENARIOOBJECTLISTREQUEST.fields_by_name['scenarioObjects'].message_type = DTO__pb2._SCENARIOOBJECTLISTDTO
 _BASICSCENARIOOBJWITHFIELDSREQUEST.fields_by_name['obj'].message_type = DTO__pb2._BASICSCENARIOOBJDTO
 _BASICSCENARIOOBJWITHFIELDSREQUEST.fields_by_name['structInfo'].message_type = DTO__pb2._STRUCTUREINFODTO
@@ -1254,6 +1345,8 @@ _SCENARIODIRECTORUESDTO.fields_by_name['value'].message_type = _SCENARIODIRECTOR
 DESCRIPTOR.message_types_by_name['NetworkIDRequest'] = _NETWORKIDREQUEST
 DESCRIPTOR.message_types_by_name['NetworkIDWithStructIDRequest'] = _NETWORKIDWITHSTRUCTIDREQUEST
 DESCRIPTOR.message_types_by_name['NetworkIDWithStructSysNameRequest'] = _NETWORKIDWITHSTRUCTSYSNAMEREQUEST
+DESCRIPTOR.message_types_by_name['NetworkIDWithStructSysNameRequestAndUserIDRequest'] = _NETWORKIDWITHSTRUCTSYSNAMEREQUESTANDUSERIDREQUEST
+DESCRIPTOR.message_types_by_name['CreateStructureRequest'] = _CREATESTRUCTUREREQUEST
 DESCRIPTOR.message_types_by_name['StructSysNameRequest'] = _STRUCTSYSNAMEREQUEST
 DESCRIPTOR.message_types_by_name['NetworkIDWithStructIDWithFieldsRequest'] = _NETWORKIDWITHSTRUCTIDWITHFIELDSREQUEST
 DESCRIPTOR.message_types_by_name['NetworkIDWithScenarioObjectListRequest'] = _NETWORKIDWITHSCENARIOOBJECTLISTREQUEST
@@ -1296,6 +1389,20 @@ NetworkIDWithStructSysNameRequest = _reflection.GeneratedProtocolMessageType('Ne
   # @@protoc_insertion_point(class_scope:NetworkIDWithStructSysNameRequest)
   ))
 _sym_db.RegisterMessage(NetworkIDWithStructSysNameRequest)
+
+NetworkIDWithStructSysNameRequestAndUserIDRequest = _reflection.GeneratedProtocolMessageType('NetworkIDWithStructSysNameRequestAndUserIDRequest', (_message.Message,), dict(
+  DESCRIPTOR = _NETWORKIDWITHSTRUCTSYSNAMEREQUESTANDUSERIDREQUEST,
+  __module__ = 'CommonRequestResponse_pb2'
+  # @@protoc_insertion_point(class_scope:NetworkIDWithStructSysNameRequestAndUserIDRequest)
+  ))
+_sym_db.RegisterMessage(NetworkIDWithStructSysNameRequestAndUserIDRequest)
+
+CreateStructureRequest = _reflection.GeneratedProtocolMessageType('CreateStructureRequest', (_message.Message,), dict(
+  DESCRIPTOR = _CREATESTRUCTUREREQUEST,
+  __module__ = 'CommonRequestResponse_pb2'
+  # @@protoc_insertion_point(class_scope:CreateStructureRequest)
+  ))
+_sym_db.RegisterMessage(CreateStructureRequest)
 
 StructSysNameRequest = _reflection.GeneratedProtocolMessageType('StructSysNameRequest', (_message.Message,), dict(
   DESCRIPTOR = _STRUCTSYSNAMEREQUEST,
