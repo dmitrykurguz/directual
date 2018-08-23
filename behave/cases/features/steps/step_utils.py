@@ -71,7 +71,14 @@ def debug(text, info = ''):
 
 
 def deepgetattr(obj, path):
-    return reduce(getattr, path.split('.'), obj)
+    return reduce(ourgetattr, path.split('.'), obj)
+
+
+def ourgetattr(obj, name):
+  if name.startswith('[\''):
+    prop = name[2:-2]
+    return obj[prop]
+  return getattr(obj, name)
 
 
 def safe(function):

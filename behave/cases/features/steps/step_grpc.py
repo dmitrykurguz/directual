@@ -10,7 +10,7 @@ from google.protobuf import empty_pb2
 from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, BoolValue, DoubleValue
 
 
-from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo
+from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest
 from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue
 
 from flatten_json import flatten_json
@@ -124,7 +124,23 @@ def step_impl(context, networkID, structName):
     safe(impl)
 
 
+@when('в networkID "{networkID:d}" существует объект в структуре "{structName}" с id="{id}"')
+@then('в networkID "{networkID:d}" существует объект в структуре "{structName}" с id="{id}"')
+def stem_impl(context, networkID, structName, id):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        request = ExistsRequest(
+            networkID=networkID,
+            structID=structID,
+            ids=[id]
+        )
+        debugProto('request', request)
+        result = context.mongodbServiceStub.Exists(request)
+        debugProto('response', result)
+        assertEq(result.value, True)
 
+
+    safe(impl)
 
 def dogStructInfo():
     obj = StructureInfoDTO(
@@ -171,3 +187,4 @@ def valueToFieldDataValue(value):
                 value=float(value)
             )
         )
+

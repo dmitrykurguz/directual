@@ -24,7 +24,9 @@
             }
         },
         "assert" : {
-            "objectID.value" : "1"
+            "objectID.value" : "1",
+            "networkID.value" : 1,
+            "data.values.['name'].stringValue.value" : "Бобик"
         }
     }
     """
@@ -40,10 +42,16 @@
             }
         },
         "assert" : {
-            "objectID.value" : "2"
+            "objectID.value" : "2",
+            "networkID.value" : 1,
+            "data.values.['name'].stringValue.value" : "Тузик",
+            "data.values.['age'].intValue.value" : 35,
+            "data.values.['weight'].doubleValue.value" : 12.52
         }
     }
     """
+    Тогда в networkID "1" существует объект в структуре "dog" с id="1"
+    И в networkID "1" существует объект в структуре "dog" с id="2"
 
 
 
