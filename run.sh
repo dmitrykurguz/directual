@@ -12,7 +12,10 @@ rm -rf ./reports
 docker-compose up nginx_proxy behave
 allure serve ./reports
 
-behave -Dapp_address=http://localhost:8080
+➜  cases git:(plt-870-test-remote) ✗ 
+
+behave -w -Dapp_address=http://localhost:8081 -Dmetadata_address=localhost:12345 -Dmongodb_address=localhost:12341
+
 ➜  cases git:(plt-870-test-remote) ✗ behave -Dapp_address=http://localhost:8080 -f allure_behave.formatter:AllureFormatter -o reports
 
 # 

@@ -13,6 +13,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 # from steps import MetadataRemoteServiceStub
 
 from steps . directualproto . MetadataRemoteService_pb2_grpc import MetadataRemoteServiceStub
+from steps . directualproto . DatasourceRemoteService_pb2_grpc import DatasourceRemoteServiceStub
 def before_all(context):
   # time.sleep(10) # wait for selenoid
 
@@ -82,6 +83,11 @@ def before_scenario(context, scenario):
           metadata_address = context.config.userdata['metadata_address']
           context.metadataChannel = grpc.insecure_channel(metadata_address)
           context.metadataServiceStub = MetadataRemoteServiceStub(context.metadataChannel)
+    if "mongodb-service" in scenario.effective_tags:
+        if not hasattr(context, 'mongodb-service'):
+          mongodb_address = context.config.userdata['mongodb_address']
+          context.mongodbChannel = grpc.insecure_channel(mongodb_address)
+          context.mongodbServiceStub = DatasourceRemoteServiceStub(context.mongodbChannel)
 
 
 def after_scenario(context, scenario):
@@ -90,6 +96,12 @@ def after_scenario(context, scenario):
         context.metadataChannel.close()
         del context.metadataChannel
         del context.metadataServiceStub
+    if "mongodb-service" in scenario.effective_tags:
+      if hasattr(context, 'mongodbChannel'):
+        context.mongodbChannel.close()
+        del context.mongodbChannel
+        del context.mongodbServiceStub
+
 
 
     # Whatever other things you might want to do in this hook go here.
