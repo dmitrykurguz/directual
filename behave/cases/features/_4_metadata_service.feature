@@ -52,8 +52,71 @@
     """
     Тогда в networkID "1" существует объект в структуре "dog" с id="1"
     И в networkID "1" существует объект в структуре "dog" с id="2"
-
+    Если в networkID "1" изменим поля в структуре "dog" с id="2"
+    """
+    {
+        "request" : {
+            "data" : {
+                "name" : "Гектор"
+            }
+        },
+        "assert" : {
+            "value" : {
+                "objectID.value" : "2",
+                "networkID.value" : 1,
+                "data.values.['name'].stringValue.value" : "Гектор"
+            }
+        }
+    }
+    """
+    То в networkID "1" ищем по структуре "dog"
+    """
+    {
+        "request" : {
+        },
+        "assert" : {
+            "value.values.[1]" : {
+                "objectID.value" : "2",
+                "networkID.value" : 1,
+                "data.values.['name'].stringValue.value" : "Гектор",
+                "data.values.['age'].intValue.value" : 35,
+                "data.values.['weight'].doubleValue.value" : 12.52
+            }
+        }
+    }
+    """
+    И в networkID "1" ищем по структуре "dog"
+    """
+    {
+        "request" : {
+            "op" : "all",
+            "innerFilters" : [
+                {
+                    "op" : "==",
+                    "field" : "age",
+                    "value" : "35"
+                },
+                {
+                    "op" : "==",
+                    "field" : "name",
+                    "value" : "Гектор"
+                }
+            ]
+        },
+        "assert" : {
+            "value.values.[0]" : {
+                "objectID.value" : "2",
+                "networkID.value" : 1,
+                "data.values.['name'].stringValue.value" : "Гектор",
+                "data.values.['age'].intValue.value" : 35,
+                "data.values.['weight'].doubleValue.value" : 12.52
+            }
+        }
+    }
+    """
 
 
 #FindByNetworkID
 #ScenarioDirectoriesMapping
+
+#Remove, List, TableSize, Report, ProcessObjects, ProcessObjectsWithFields, BatchFields, SimpleAggregate

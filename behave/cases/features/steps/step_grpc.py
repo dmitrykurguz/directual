@@ -10,8 +10,8 @@ from google.protobuf import empty_pb2
 from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, BoolValue, DoubleValue
 
 
-from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest
-from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue
+from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest
+from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO
 
 from flatten_json import flatten_json
 from behave import given, when, then
@@ -126,7 +126,7 @@ def step_impl(context, networkID, structName):
 
 @when('в networkID "{networkID:d}" существует объект в структуре "{structName}" с id="{id}"')
 @then('в networkID "{networkID:d}" существует объект в структуре "{structName}" с id="{id}"')
-def stem_impl(context, networkID, structName, id):
+def step_impl(context, networkID, structName, id):
     def impl():
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
         request = ExistsRequest(
@@ -134,11 +134,89 @@ def stem_impl(context, networkID, structName, id):
             structID=structID,
             ids=[id]
         )
+        
         debugProto('request', request)
         result = context.mongodbServiceStub.Exists(request)
         debugProto('response', result)
         assertEq(result.value, True)
 
+        request2 = BasicScenarioObjDTO(
+            networkID=networkID,
+            structID=structID,
+            objectID=id
+        )
+
+        debugProto('request 2', request2)
+        result2 = context.mongodbServiceStub.Exist(request2)
+        debugProto('response 2', result2)
+
+        assertEq(result2.value, True)
+
+
+    safe(impl)
+
+
+@when('в networkID "{networkID:d}" изменим поля в структуре "{structName}" с id="{id}"')
+def step_impl(context, networkID, structName, id):
+    def impl():
+        step_params = json.loads(context.text)
+        data = step_params['request']['data']
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        changeFields=dataToChangeFieldObjects(data)
+        request = FieldsWithDataRequest(
+            networkID=networkID,
+            structID=structID,
+            objectID=id,
+            who="behave",
+            structInfo=dogStructInfo(),
+            fields=changeFields
+        )
+
+        debugProto('request', request)
+        result = context.mongodbServiceStub.ChangeFieldObject(request)
+        debugProto('response', result)
+
+        assertion = flatten_json(step_params['assert'], '.')
+        for assertKey, assertValue in assertion.items():
+            # extract value from StringValue
+            objValue = deepgetattr(result, assertKey)
+            assertEq(objValue, assertValue)
+
+
+    safe(impl)
+
+
+@then('в networkID "{networkID:d}" ищем по структуре "{structName}"')
+def step_impl(context, networkID, structName):
+    def impl():
+        step_params = json.loads(context.text)
+        filters = step_params['request']
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+
+        filterDto = requestToFilterDTO(filters)
+
+        request = FindObjectRequest(
+            networkID=networkID,
+            structID=structID,
+            structInfo=dogStructInfo(),
+            filters=[filterDto],
+            paginator=PaginatorDTO(
+                page=0,
+                size=10,
+                fields = [],
+                orders = []
+            )
+        )
+
+        debugProto('request', request)
+        result = context.mongodbServiceStub.FindObjectByFilter(request)
+        debugProto('response', result)
+
+        assertion = flatten_json(step_params['assert'], '.')
+        for assertKey, assertValue in assertion.items():
+            # extract value from StringValue
+            objValue = deepgetattr(result, assertKey)
+            assertEq(objValue, assertValue)
 
     safe(impl)
 
@@ -155,11 +233,47 @@ def structCacheKey(networkID, sysName, field):
     return result
 
 
+def dataToChangeFieldObjects(data):
+    result = list(
+        map(lambda kv: kvToExpressionResultDto(kv[0], kv[1]), data.items())
+    )
+    return result
+
+
+def kvToExpressionResultDto(k,v):
+    result = ExpressionResultDto(
+        fieldName=k,
+        dataValue=valueToFieldDataValue(v),
+        expressionType=ExpressionResultType.Name(SET)
+    )
+    return result
+
+
 def dataToFieldsValues(data):
     result = dict(
         map(lambda kv: (kv[0], valueToFieldDataValue(kv[1])), data.items()))
     response = FieldsValues(values = result)
     return response
+
+
+def requestToFilterDTO(request):
+    if 'op' in request:
+        op = request['op']
+        if 'innerFilters' in request:
+            inner = list(map(requestToFilterDTO, request['innerFilters']))
+            return FilterDTO(
+                op=op,
+                innerFilters=inner
+            )
+        else:
+            return FilterDTO(
+                op=op,
+                field=request['field'],
+                value=request['value']
+            )
+    else:
+        return FilterDTO()
+
 
 
 def valueToFieldDataValue(value):

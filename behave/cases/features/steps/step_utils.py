@@ -75,9 +75,14 @@ def deepgetattr(obj, path):
 
 
 def ourgetattr(obj, name):
+  #dict by name
   if name.startswith('[\''):
     prop = name[2:-2]
     return obj[prop]
+  #array by index
+  if name.startswith('['):
+    idx = int(name[1:-1])
+    return obj[idx]
   return getattr(obj, name)
 
 
