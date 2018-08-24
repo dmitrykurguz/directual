@@ -1,6 +1,6 @@
 Функционал: Работа с mongodb-service
 
-@wip
+#@wip
 @metadata-service
 @mongodb-service
 Сценарий: Проверяем добавление и поиск данных
@@ -114,9 +114,149 @@
         }
     }
     """
+    Если в networkID "1" удаляем объект в структуре "dog" с id="1"
+    То в networkID "1" ищем по структуре "dog"
+    """
+    {
+        "request" : {
+            "op" : "==",
+            "field" : "name",
+            "value" : "Бобик"
+        },
+        "assert" : {
+            "total" : 0
+        }
+    }
+    """
+    То в networkID "1" ищем по структуре "dog"
+    """
+    {
+        "request" : {
+        },
+        "assert" : {
+            "total" : 1
+        }
+    }
+    """
 
+
+
+
+@wip
+@metadata-service
+@mongodb-service
+Сценарий: Проверяем простые аггрегации и отчеты
+    Допустим в networkID "1" удаляем структуру "users"
+    И в networkID "1" удаляем структуру "city"
+    И в networkID "1" создаем структуру "city" с полями
+    """
+    [
+        {"sysName":"id","dataType":"id","name":"id","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"size","dataType":"string","name":"size","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"name","dataType":"string","name":"name","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false}
+    ]
+    """
+    И в networkID "1" создаем структуру "users" с полями
+    """
+    [
+        {"sysName":"id","dataType":"id","name":"id","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"name","dataType":"string","name":"name","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"age","dataType":"number","name":"age","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"city_id","dataType":"link","name":"city_id","link":"city","indexing":true,"ordering":false,"linkIndexFieldSysName":["size"],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":true}
+    ]
+    """
+    То в networkID "1" создаем множество объектов в структуре "city"
+    """
+    {
+        "request" : [
+            {
+            "id" : "1",
+            "data" : {
+                "name" : "Петр",
+                "age" : "33",
+                "city_id" : "1"
+            }
+            },
+            {
+                "id" : "2",
+                "data" : {
+                    "name" : "Юрий",
+                    "age" : "39",
+                    "city_id" : "1"
+                }
+            },
+            {
+                "id" : "3",
+                "data" : {
+                    "name" : "Юлия",
+                    "age" : "20",
+                    "city_id" : "2"
+                }
+            },
+            {
+                "id" : "4",
+                "data" : {
+                    "name" : "Мария",
+                    "age" : "28",
+                    "city_id" : "2"
+                }
+            },
+            {
+                "id" : "5",
+                "data" : {
+                    "name" : "Григорий",
+                    "age" : "45",
+                    "city_id" : "3"
+                }
+            },
+            {
+                "id" : "6",
+                "data" : {
+                    "name" : "Федор",
+                    "age" : "52",
+                    "city_id" : "4"
+                }
+            }
+        ]
+    }
+    """
+    И в networkID "1" создаем множество объектов в структуре "users"
+    """
+    {
+        "request" : [
+            {
+            "id" : "1",
+            "data" : {
+                "name" : "Москва",
+                "size" : "XXL"
+            }
+            },
+            {
+                "id" : "2",
+                "data" : {
+                    "name" : "New York",
+                    "size" : "XXL"
+                }
+            },
+            {
+                "id" : "3",
+                "data" : {
+                    "name" : "Самара",
+                    "size" : "L"
+                }
+            },
+            {
+                "id" : "4",
+                "data" : {
+                    "name" : "Калуга",
+                    "size" : "L"
+                }
+            }
+        ]
+    }
+    """
 
 #FindByNetworkID
 #ScenarioDirectoriesMapping
 
-#Remove, List, TableSize, Report, ProcessObjects, ProcessObjectsWithFields, BatchFields, SimpleAggregate
+# List, TableSize, Report, ProcessObjects, ProcessObjectsWithFields, BatchFields, SimpleAggregate

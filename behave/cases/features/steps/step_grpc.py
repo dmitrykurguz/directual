@@ -10,8 +10,8 @@ from google.protobuf import empty_pb2
 from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, BoolValue, DoubleValue
 
 
-from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest
-from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO
+from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest
+from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO
 
 from flatten_json import flatten_json
 from behave import given, when, then
@@ -108,7 +108,7 @@ def step_impl(context, networkID, structName):
                 objectID=StringValue(value = id),
                 data=fieldValues
             ),
-            structInfo = dogStructInfo()
+            structInfo = commonStructInfo()
         )
         debugProto('request', request)
         result = context.mongodbServiceStub.Save(request)
@@ -121,6 +121,53 @@ def step_impl(context, networkID, structName):
             assertEq(objValue, assertValue)
 
     
+    safe(impl)
+
+
+def fieldValuesToDtoWithStructInfo(networkID, structID, id, fieldValues):
+    dto = fieldValueToScenarioObjectDTOWrapper(networkID, structID, id, fieldValues)
+    return ScenarioObjectDTOWrapperWithStructInfo(dto=dto)
+
+
+def fieldValueToScenarioObjectDTOWrapper(networkID, structID, id, fieldValues):
+    return ScenarioObjectDTOWrapper(
+        networkID=Int64Value(value=networkID),
+        structID=Int64Value(value=structID),
+        objectID=StringValue(value=id),
+        data=fieldValues)
+
+@when('в networkID "{networkID:d}" создаем множество объектов в структуре "{structName}"')
+@then('в networkID "{networkID:d}" создаем множество объектов в структуре "{structName}"')
+def step_impl(context, networkID, structName):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+
+        step_params = json.loads(context.text)
+        dataItems = step_params['request']
+
+        structInfoByStruct = {}
+        structInfoByStruct[structID] = commonStructInfo()
+
+
+        items = map(lambda x: (x['id'], dataToFieldsValues(x['data'])), dataItems)
+        
+        debug(items)
+
+        dtoList = list(map(lambda kv: fieldValueToScenarioObjectDTOWrapper(
+            networkID, structID, kv[0], kv[1]), items))
+
+        request = NetworkIDWithScenarioObjectListRequestWithStructInfo(
+            dto=NetworkIDWithScenarioObjectListRequest(
+                networkID=networkID,
+                scenarioObjects=ScenarioObjectListDTO(values=dtoList)
+            ),
+            structInfoByStruct=structInfoByStruct,
+            
+        )
+        debugProto('request', request)
+        result = context.mongodbServiceStub.SaveBatch(request)
+        debugProto('response', result)
+        
     safe(impl)
 
 
@@ -168,7 +215,7 @@ def step_impl(context, networkID, structName, id):
             structID=structID,
             objectID=id,
             who="behave",
-            structInfo=dogStructInfo(),
+            structInfo=commonStructInfo(),
             fields=changeFields
         )
 
@@ -198,7 +245,7 @@ def step_impl(context, networkID, structName):
         request = FindObjectRequest(
             networkID=networkID,
             structID=structID,
-            structInfo=dogStructInfo(),
+            structInfo=commonStructInfo(),
             filters=[filterDto],
             paginator=PaginatorDTO(
                 page=0,
@@ -212,15 +259,39 @@ def step_impl(context, networkID, structName):
         result = context.mongodbServiceStub.FindObjectByFilter(request)
         debugProto('response', result)
 
+
         assertion = flatten_json(step_params['assert'], '.')
         for assertKey, assertValue in assertion.items():
             # extract value from StringValue
             objValue = deepgetattr(result, assertKey)
             assertEq(objValue, assertValue)
 
+        # assertSize = int(step_params['assertSize'])
+        # assertEq(assertSize, )
+
     safe(impl)
 
-def dogStructInfo():
+
+@when('в networkID "{networkID:d}" удаляем объект в структуре "{structName}" с id="{id}"')
+def step_impl(context, networkID, structName, id):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        request = BasicScenarioObjDTO(
+            networkID=networkID,
+            structID=structID,
+            objectID=id
+        )
+        
+
+        debugProto('request', request)
+        result = context.mongodbServiceStub.Remove(request)
+        debugProto('response', result)
+
+        assertEq(result.value, True)
+        
+    safe(impl)    
+
+def commonStructInfo():
     obj = StructureInfoDTO(
         idFieldSysName=StringValue(value = 'id'),
         dataTypeByName={}
