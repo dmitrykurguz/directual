@@ -72,7 +72,7 @@
     То в networkID "1" ищем по структуре "dog"
     """
     {
-        "request" : {
+        "filters" : {
         },
         "assert" : {
             "value.values.[1]" : {
@@ -88,7 +88,7 @@
     И в networkID "1" ищем по структуре "dog"
     """
     {
-        "request" : {
+        "filters" : {
             "op" : "all",
             "innerFilters" : [
                 {
@@ -118,7 +118,7 @@
     То в networkID "1" ищем по структуре "dog"
     """
     {
-        "request" : {
+        "filters" : {
             "op" : "==",
             "field" : "name",
             "value" : "Бобик"
@@ -131,7 +131,7 @@
     То в networkID "1" ищем по структуре "dog"
     """
     {
-        "request" : {
+        "filters" : {
         },
         "assert" : {
             "total" : 1
@@ -145,7 +145,7 @@
 @wip
 @metadata-service
 @mongodb-service
-Сценарий: Проверяем простые аггрегации и отчеты
+Сценарий: Проверяем простые аггрегации, отчеты и поиск по индексу
     Допустим в networkID "1" удаляем структуру "users"
     И в networkID "1" удаляем структуру "city"
     И в networkID "1" создаем структуру "city" с полями
@@ -166,6 +166,41 @@
     ]
     """
     То в networkID "1" создаем множество объектов в структуре "city"
+    """
+    {
+        "request" : [
+            {
+            "id" : "1",
+            "data" : {
+                "name" : "Москва",
+                "size" : "XXL"
+            }
+            },
+            {
+                "id" : "2",
+                "data" : {
+                    "name" : "New York",
+                    "size" : "XXL"
+                }
+            },
+            {
+                "id" : "3",
+                "data" : {
+                    "name" : "Самара",
+                    "size" : "L"
+                }
+            },
+            {
+                "id" : "4",
+                "data" : {
+                    "name" : "Калуга",
+                    "size" : "L"
+                }
+            }
+        ]
+    }
+    """
+    И в networkID "1" создаем множество объектов в структуре "users"
     """
     {
         "request" : [
@@ -220,39 +255,35 @@
         ]
     }
     """
-    И в networkID "1" создаем множество объектов в структуре "users"
+    То в networkID "1" ищем по структуре "users"
     """
     {
-        "request" : [
-            {
-            "id" : "1",
-            "data" : {
-                "name" : "Москва",
-                "size" : "XXL"
-            }
-            },
-            {
-                "id" : "2",
-                "data" : {
-                    "name" : "New York",
-                    "size" : "XXL"
+        "filters" : {
+            "op" : "all",
+            "innerFilters" : [
+                {
+                    "op" : "==",
+                    "field" : "city_id.size",
+                    "value" : "L"
                 }
-            },
-            {
-                "id" : "3",
-                "data" : {
-                    "name" : "Самара",
-                    "size" : "L"
-                }
-            },
-            {
-                "id" : "4",
-                "data" : {
-                    "name" : "Калуга",
-                    "size" : "L"
-                }
-            }
-        ]
+            ]
+        },
+        "assert" : {
+            "total" : 2
+        }
+    }
+    """
+    Если в networkID "1" строим аггрегацию по структуре "users"
+    """
+    {
+        "request" : {
+            "filters" : [],
+            "aggregation" : "arrayField",
+            "aggregationField" : "name"
+        },
+        "assert" : {
+            "stringValue.value" : "Федор,Григорий,Петр,Мария,Юрий,Юлия"
+        }
     }
     """
 

@@ -10,7 +10,7 @@ from google.protobuf import empty_pb2
 from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, BoolValue, DoubleValue
 
 
-from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest
+from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest, SimpleAggregateRequest
 from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO
 
 from flatten_json import flatten_json
@@ -48,7 +48,7 @@ def step_impl(context, networkID, sysName):
             sysName = StringValue(value = sysName),
             name = StringValue(value = '%s structure' % sysName),
             jsonObjectRaw = StringValue(value = fieldInfo),
-            indexEnabled = BoolValue(value = False)
+            indexEnabled = BoolValue(value = True)
         )
 
         request = CreateStructureRequest(
@@ -136,6 +136,9 @@ def fieldValueToScenarioObjectDTOWrapper(networkID, structID, id, fieldValues):
         objectID=StringValue(value=id),
         data=fieldValues)
 
+
+
+@given('в networkID "{networkID:d}" создаем множество объектов в структуре "{structName}"')
 @when('в networkID "{networkID:d}" создаем множество объектов в структуре "{structName}"')
 @then('в networkID "{networkID:d}" создаем множество объектов в структуре "{structName}"')
 def step_impl(context, networkID, structName):
@@ -234,12 +237,13 @@ def step_impl(context, networkID, structName, id):
 
 
 @then('в networkID "{networkID:d}" ищем по структуре "{structName}"')
+@when('в networkID "{networkID:d}" ищем по структуре "{structName}"')
 def step_impl(context, networkID, structName):
     def impl():
         step_params = json.loads(context.text)
-        filters = step_params['request']
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
 
+        filters = step_params['filters']
         filterDto = requestToFilterDTO(filters)
 
         request = FindObjectRequest(
@@ -289,7 +293,43 @@ def step_impl(context, networkID, structName, id):
 
         assertEq(result.value, True)
         
-    safe(impl)    
+    safe(impl)
+
+
+@when('в networkID "{networkID:d}" строим аггрегацию по структуре "{structName}"')
+def step_impl(context, networkID, structName):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+
+        step_params = json.loads(context.text)
+
+        request_params = step_params['request']
+        filters = request_params['filters']
+        filterDto = requestToFilterDTO(filters)
+
+        aggregation = request_params['aggregation']
+        aggregationField = request_params['aggregationField']
+
+        request = SimpleAggregateRequest(
+            networkID=networkID,
+            structID=structID,
+            filters=[filterDto],
+            structInfo=commonStructInfo(),
+            aggregation=aggregation,
+            aggregationField=aggregationField
+            )
+        
+        debugProto('request', request)
+        result = context.mongodbServiceStub.SimpleAggregate(request)
+        debugProto('response', result)
+
+        assertion = flatten_json(step_params['assert'], '.')
+        for assertKey, assertValue in assertion.items():
+            # extract value from StringValue
+            objValue = deepgetattr(result, assertKey)
+            assertEq(objValue, assertValue)
+
+    safe(impl)
 
 def commonStructInfo():
     obj = StructureInfoDTO(
