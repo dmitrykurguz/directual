@@ -97,6 +97,11 @@ class DatasourceRemoteServiceStub(object):
         request_serializer=DTO__pb2.BasicScenarioObjDTO.SerializeToString,
         response_deserializer=google_dot_protobuf_dot_wrappers__pb2.BoolValue.FromString,
         )
+    self.Exists = channel.unary_unary(
+        '/DatasourceRemoteService/Exists',
+        request_serializer=CommonRequestResponse__pb2.ExistsRequest.SerializeToString,
+        response_deserializer=google_dot_protobuf_dot_wrappers__pb2.BoolValue.FromString,
+        )
     self.Report = channel.unary_unary(
         '/DatasourceRemoteService/Report',
         request_serializer=CommonRequestResponse__pb2.BuildReportRequest.SerializeToString,
@@ -141,11 +146,6 @@ class DatasourceRemoteServiceStub(object):
         '/DatasourceRemoteService/Healthcheck',
         request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
         response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-        )
-    self.Exists = channel.unary_unary(
-        '/DatasourceRemoteService/Exists',
-        request_serializer=CommonRequestResponse__pb2.ExistsRequest.SerializeToString,
-        response_deserializer=google_dot_protobuf_dot_wrappers__pb2.BoolValue.FromString,
         )
     self.FindObjectByFilter = channel.unary_unary(
         '/DatasourceRemoteService/FindObjectByFilter',
@@ -290,6 +290,13 @@ class DatasourceRemoteServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def Exists(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def Report(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -347,13 +354,6 @@ class DatasourceRemoteServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def Healthcheck(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def Exists(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -478,6 +478,11 @@ def add_DatasourceRemoteServiceServicer_to_server(servicer, server):
           request_deserializer=DTO__pb2.BasicScenarioObjDTO.FromString,
           response_serializer=google_dot_protobuf_dot_wrappers__pb2.BoolValue.SerializeToString,
       ),
+      'Exists': grpc.unary_unary_rpc_method_handler(
+          servicer.Exists,
+          request_deserializer=CommonRequestResponse__pb2.ExistsRequest.FromString,
+          response_serializer=google_dot_protobuf_dot_wrappers__pb2.BoolValue.SerializeToString,
+      ),
       'Report': grpc.unary_unary_rpc_method_handler(
           servicer.Report,
           request_deserializer=CommonRequestResponse__pb2.BuildReportRequest.FromString,
@@ -522,11 +527,6 @@ def add_DatasourceRemoteServiceServicer_to_server(servicer, server):
           servicer.Healthcheck,
           request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
           response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-      ),
-      'Exists': grpc.unary_unary_rpc_method_handler(
-          servicer.Exists,
-          request_deserializer=CommonRequestResponse__pb2.ExistsRequest.FromString,
-          response_serializer=google_dot_protobuf_dot_wrappers__pb2.BoolValue.SerializeToString,
       ),
       'FindObjectByFilter': grpc.unary_unary_rpc_method_handler(
           servicer.FindObjectByFilter,

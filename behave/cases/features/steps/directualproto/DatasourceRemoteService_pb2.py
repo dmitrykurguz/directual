@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='DatasourceRemoteService.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x1d\x44\x61tasourceRemoteService.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1egoogle/protobuf/wrappers.proto\x1a\tDTO.proto\x1a\x1b\x43ommonRequestResponse.proto2\xe2\x11\n\x17\x44\x61tasourceRemoteService\x12\x38\n\x04Ping\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12R\n\rUpdateIndeces\x12\'.NetworkIDWithStructIDWithFieldsRequest\x1a\x16.google.protobuf.Empty\"\x00\x12\x43\n\x08Truncate\x12\x1d.NetworkIDWithStructIDRequest\x1a\x16.google.protobuf.Empty\"\x00\x12U\n\x10RemoveFieldsData\x12\'.NetworkIDWithStructIDWithFieldsRequest\x1a\x16.google.protobuf.Empty\"\x00\x12G\n\x14NativeVersionSupport\x12\x11.NetworkIDRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12L\n\x04Save\x12\'.ScenarioObjectDTOWrapperWithStructInfo\x1a\x19.ScenarioObjectDTOWrapper\"\x00\x12\\\n\tSaveBatch\x12\x35.NetworkIDWithScenarioObjectListRequestWithStructInfo\x1a\x16.ScenarioObjectListDTO\"\x00\x12K\n\tFindBySID\x12\".BasicScenarioObjDTOWithStructInfo\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12K\n\tFindByOID\x12\".BasicScenarioObjDTOWithStructInfo\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12U\n\x13\x46indByOIDWithFields\x12\".BasicScenarioObjWithFieldsRequest\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12\x62\n\x0fSimpleFindByOID\x12\x33.NetworkIDWithStructIDWithObjectIDWithFieldsRequest\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12=\n\x06\x46ields\x12\".BasicScenarioObjWithFieldsRequest\x1a\r.FieldsValues\"\x00\x12U\n\rFieldsPartial\x12\x33.NetworkIDWithStructIDWithObjectIDWithFieldsRequest\x1a\r.FieldsValues\"\x00\x12:\n\x08Versions\x12\x10.VersionsRequest\x1a\x1a.VersionInformationListDTO\"\x00\x12\x64\n\x13SystemFieldVersions\x12/.BasicScenarioObjWithMaxVersionWithFieldRequest\x1a\x1a.VersionInformationListDTO\"\x00\x12;\n\x05\x45xist\x12\x14.BasicScenarioObjDTO\x1a\x1a.google.protobuf.BoolValue\"\x00\x12\x37\n\x06Report\x12\x13.BuildReportRequest\x1a\x16.google.protobuf.Empty\"\x00\x12<\n\x06Remove\x12\x14.BasicScenarioObjDTO\x1a\x1a.google.protobuf.BoolValue\"\x00\x12\x35\n\x04List\x12\x12.StructListRequest\x1a\x17.ScenarioObjectPagedDTO\"\x00\x12J\n\tTableSize\x12\x1d.NetworkIDWithStructIDRequest\x1a\x1c.google.protobuf.UInt64Value\"\x00\x12:\n\x0bLastObjects\x12\x11.NetworkIDRequest\x1a\x16.ScenarioObjectListDTO\"\x00\x12G\n\x11\x43hangeFieldObject\x12\x16.FieldsWithDataRequest\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12\x45\n\x12NativeIndexSupport\x12\x11.NetworkIDRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12K\n\x18NativeAggregationSupport\x12\x11.NetworkIDRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12?\n\x0bHealthcheck\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x36\n\x06\x45xists\x12\x0e.ExistsRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12\x43\n\x12\x46indObjectByFilter\x12\x12.FindObjectRequest\x1a\x17.ScenarioObjectPagedDTO\"\x00\x12\x43\n\x0eProcessObjects\x12\x1d.NetworkIDWithStructIDRequest\x1a\x0e.ObjectInfoDTO\"\x00\x30\x01\x12K\n\x18ProcessObjectsWithFields\x12\x15.ProcessObjectRequest\x1a\x14.ObjectWithFieldsDTO\"\x00\x30\x01\x12<\n\x0b\x42\x61tchFields\x12\x13.BatchFieldsRequest\x1a\x14.ObjectWithFieldsDTO\"\x00\x30\x01\x12=\n\x0fSimpleAggregate\x12\x17.SimpleAggregateRequest\x1a\x0f.FieldDataValue\"\x00\x42\x35\n com.directual.generated.servicesB\x0f\x44\x61taSourceProtoP\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x1d\x44\x61tasourceRemoteService.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1egoogle/protobuf/wrappers.proto\x1a\tDTO.proto\x1a\x1b\x43ommonRequestResponse.proto2\xe2\x11\n\x17\x44\x61tasourceRemoteService\x12\x38\n\x04Ping\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12R\n\rUpdateIndeces\x12\'.NetworkIDWithStructIDWithFieldsRequest\x1a\x16.google.protobuf.Empty\"\x00\x12\x43\n\x08Truncate\x12\x1d.NetworkIDWithStructIDRequest\x1a\x16.google.protobuf.Empty\"\x00\x12U\n\x10RemoveFieldsData\x12\'.NetworkIDWithStructIDWithFieldsRequest\x1a\x16.google.protobuf.Empty\"\x00\x12G\n\x14NativeVersionSupport\x12\x11.NetworkIDRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12L\n\x04Save\x12\'.ScenarioObjectDTOWrapperWithStructInfo\x1a\x19.ScenarioObjectDTOWrapper\"\x00\x12\\\n\tSaveBatch\x12\x35.NetworkIDWithScenarioObjectListRequestWithStructInfo\x1a\x16.ScenarioObjectListDTO\"\x00\x12K\n\tFindBySID\x12\".BasicScenarioObjDTOWithStructInfo\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12K\n\tFindByOID\x12\".BasicScenarioObjDTOWithStructInfo\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12U\n\x13\x46indByOIDWithFields\x12\".BasicScenarioObjWithFieldsRequest\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12\x62\n\x0fSimpleFindByOID\x12\x33.NetworkIDWithStructIDWithObjectIDWithFieldsRequest\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12=\n\x06\x46ields\x12\".BasicScenarioObjWithFieldsRequest\x1a\r.FieldsValues\"\x00\x12U\n\rFieldsPartial\x12\x33.NetworkIDWithStructIDWithObjectIDWithFieldsRequest\x1a\r.FieldsValues\"\x00\x12:\n\x08Versions\x12\x10.VersionsRequest\x1a\x1a.VersionInformationListDTO\"\x00\x12\x64\n\x13SystemFieldVersions\x12/.BasicScenarioObjWithMaxVersionWithFieldRequest\x1a\x1a.VersionInformationListDTO\"\x00\x12;\n\x05\x45xist\x12\x14.BasicScenarioObjDTO\x1a\x1a.google.protobuf.BoolValue\"\x00\x12\x36\n\x06\x45xists\x12\x0e.ExistsRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12\x37\n\x06Report\x12\x13.BuildReportRequest\x1a\x16.google.protobuf.Empty\"\x00\x12<\n\x06Remove\x12\x14.BasicScenarioObjDTO\x1a\x1a.google.protobuf.BoolValue\"\x00\x12\x35\n\x04List\x12\x12.StructListRequest\x1a\x17.ScenarioObjectPagedDTO\"\x00\x12J\n\tTableSize\x12\x1d.NetworkIDWithStructIDRequest\x1a\x1c.google.protobuf.UInt64Value\"\x00\x12:\n\x0bLastObjects\x12\x11.NetworkIDRequest\x1a\x16.ScenarioObjectListDTO\"\x00\x12G\n\x11\x43hangeFieldObject\x12\x16.FieldsWithDataRequest\x1a\x18.ScenarioObjectOptionDTO\"\x00\x12\x45\n\x12NativeIndexSupport\x12\x11.NetworkIDRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12K\n\x18NativeAggregationSupport\x12\x11.NetworkIDRequest\x1a\x1a.google.protobuf.BoolValue\"\x00\x12?\n\x0bHealthcheck\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12\x43\n\x12\x46indObjectByFilter\x12\x12.FindObjectRequest\x1a\x17.ScenarioObjectPagedDTO\"\x00\x12\x43\n\x0eProcessObjects\x12\x1d.NetworkIDWithStructIDRequest\x1a\x0e.ObjectInfoDTO\"\x00\x30\x01\x12K\n\x18ProcessObjectsWithFields\x12\x15.ProcessObjectRequest\x1a\x14.ObjectWithFieldsDTO\"\x00\x30\x01\x12<\n\x0b\x42\x61tchFields\x12\x13.BatchFieldsRequest\x1a\x14.ObjectWithFieldsDTO\"\x00\x30\x01\x12=\n\x0fSimpleAggregate\x12\x17.SimpleAggregateRequest\x1a\x0f.FieldDataValue\"\x00\x42\x35\n com.directual.generated.servicesB\x0f\x44\x61taSourceProtoP\x01\x62\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,google_dot_protobuf_dot_wrappers__pb2.DESCRIPTOR,DTO__pb2.DESCRIPTOR,CommonRequestResponse__pb2.DESCRIPTOR,])
 
@@ -189,9 +189,18 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
     options=None,
   ),
   _descriptor.MethodDescriptor(
+    name='Exists',
+    full_name='DatasourceRemoteService.Exists',
+    index=16,
+    containing_service=None,
+    input_type=CommonRequestResponse__pb2._EXISTSREQUEST,
+    output_type=google_dot_protobuf_dot_wrappers__pb2._BOOLVALUE,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
     name='Report',
     full_name='DatasourceRemoteService.Report',
-    index=16,
+    index=17,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._BUILDREPORTREQUEST,
     output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
@@ -200,7 +209,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Remove',
     full_name='DatasourceRemoteService.Remove',
-    index=17,
+    index=18,
     containing_service=None,
     input_type=DTO__pb2._BASICSCENARIOOBJDTO,
     output_type=google_dot_protobuf_dot_wrappers__pb2._BOOLVALUE,
@@ -209,7 +218,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='List',
     full_name='DatasourceRemoteService.List',
-    index=18,
+    index=19,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._STRUCTLISTREQUEST,
     output_type=DTO__pb2._SCENARIOOBJECTPAGEDDTO,
@@ -218,7 +227,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='TableSize',
     full_name='DatasourceRemoteService.TableSize',
-    index=19,
+    index=20,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDWITHSTRUCTIDREQUEST,
     output_type=google_dot_protobuf_dot_wrappers__pb2._UINT64VALUE,
@@ -227,7 +236,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='LastObjects',
     full_name='DatasourceRemoteService.LastObjects',
-    index=20,
+    index=21,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDREQUEST,
     output_type=DTO__pb2._SCENARIOOBJECTLISTDTO,
@@ -236,7 +245,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ChangeFieldObject',
     full_name='DatasourceRemoteService.ChangeFieldObject',
-    index=21,
+    index=22,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._FIELDSWITHDATAREQUEST,
     output_type=DTO__pb2._SCENARIOOBJECTOPTIONDTO,
@@ -245,7 +254,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='NativeIndexSupport',
     full_name='DatasourceRemoteService.NativeIndexSupport',
-    index=22,
+    index=23,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDREQUEST,
     output_type=google_dot_protobuf_dot_wrappers__pb2._BOOLVALUE,
@@ -254,7 +263,7 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='NativeAggregationSupport',
     full_name='DatasourceRemoteService.NativeAggregationSupport',
-    index=23,
+    index=24,
     containing_service=None,
     input_type=CommonRequestResponse__pb2._NETWORKIDREQUEST,
     output_type=google_dot_protobuf_dot_wrappers__pb2._BOOLVALUE,
@@ -263,19 +272,10 @@ _DATASOURCEREMOTESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Healthcheck',
     full_name='DatasourceRemoteService.Healthcheck',
-    index=24,
+    index=25,
     containing_service=None,
     input_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
     output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
-    options=None,
-  ),
-  _descriptor.MethodDescriptor(
-    name='Exists',
-    full_name='DatasourceRemoteService.Exists',
-    index=25,
-    containing_service=None,
-    input_type=CommonRequestResponse__pb2._EXISTSREQUEST,
-    output_type=google_dot_protobuf_dot_wrappers__pb2._BOOLVALUE,
     options=None,
   ),
   _descriptor.MethodDescriptor(

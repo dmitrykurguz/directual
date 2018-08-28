@@ -5,13 +5,14 @@ import pickle
 import requests
 import json
 import grpc
+import uuid
 
 from google.protobuf import empty_pb2
 from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, BoolValue, DoubleValue
 
 
-from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest, SimpleAggregateRequest
-from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO
+from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest, SimpleAggregateRequest, GenerateReportStructureRequest, BuildReportRequest
+from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO, ReportSettingsDTO
 
 from flatten_json import flatten_json
 from behave import given, when, then
@@ -243,37 +244,36 @@ def step_impl(context, networkID, structName):
         step_params = json.loads(context.text)
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
 
-        filters = step_params['filters']
-        filterDto = requestToFilterDTO(filters)
-
-        request = FindObjectRequest(
-            networkID=networkID,
-            structID=structID,
-            structInfo=commonStructInfo(),
-            filters=[filterDto],
-            paginator=PaginatorDTO(
-                page=0,
-                size=10,
-                fields = [],
-                orders = []
-            )
-        )
-
-        debugProto('request', request)
-        result = context.mongodbServiceStub.FindObjectByFilter(request)
-        debugProto('response', result)
-
-
-        assertion = flatten_json(step_params['assert'], '.')
-        for assertKey, assertValue in assertion.items():
-            # extract value from StringValue
-            objValue = deepgetattr(result, assertKey)
-            assertEq(objValue, assertValue)
-
-        # assertSize = int(step_params['assertSize'])
-        # assertEq(assertSize, )
+        assertForFilters(context, networkID, structID, step_params['filters'], step_params['assert'])
 
     safe(impl)
+
+
+def assertForFilters(context, networkID, structID, filters, assertItem):
+    filterDto = requestToFilterDTO(filters)
+
+    request = FindObjectRequest(
+        networkID=networkID,
+        structID=structID,
+        structInfo=commonStructInfo(),
+        filters=[filterDto],
+        paginator=PaginatorDTO(
+            page=0,
+            size=10,
+            fields=[],
+            orders=[]
+        )
+    )
+
+    debugProto('request', request)
+    result = context.mongodbServiceStub.FindObjectByFilter(request)
+    debugProto('response', result)
+
+    assertion = flatten_json(assertItem, '.')
+    for assertKey, assertValue in assertion.items():
+        # extract value from StringValue
+        objValue = deepgetattr(result, assertKey)
+        assertEq(objValue, assertValue)
 
 
 @when('в networkID "{networkID:d}" удаляем объект в структуре "{structName}" с id="{id}"')
@@ -300,7 +300,6 @@ def step_impl(context, networkID, structName, id):
 def step_impl(context, networkID, structName):
     def impl():
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
-
         step_params = json.loads(context.text)
 
         request_params = step_params['request']
@@ -330,6 +329,122 @@ def step_impl(context, networkID, structName):
             assertEq(objValue, assertValue)
 
     safe(impl)
+
+
+
+# without params and expressions, ds has no js engine
+# {
+#     "name": "exclude",
+#     "typeVariable" : "string",
+#     "defValue" : "Петр",
+#     "id" : "100"
+# }
+@when('в networkID "{networkID:d}" создаем отчет по структуре "{structName}"')
+def step_impl(context, networkID, structName):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        step_params = json.loads(context.text)
+        settings_param = step_params['request']['settings']
+        settingsDto = settingsToDto(structID, settings_param)
+        sysName = str(uuid.uuid4())
+        request = GenerateReportStructureRequest(
+            networkID=networkID,
+            structID=structID,
+            name=settings_param['name'],
+            sysName=sysName,
+            userID=0,
+            folderID=0,
+            settings = settingsDto
+        )
+
+        debugProto('request - generate metadata', request)
+        result = context.metadataServiceStub.GenerateReportStructure(request)
+        debugProto('response - generate metadata', result)
+
+        buildReportRequest = BuildReportRequest(
+            networkID=networkID,
+            structID=structID,
+            settings=result
+        )
+        debugProto('request - build report', buildReportRequest)
+        buildResult = context.mongodbServiceStub.Report(buildReportRequest)
+        debugProto('response - build report', buildResult)
+
+        targetStructureID = result.resultStructID
+        debug('target report structure id', targetStructureID)
+
+        search_assertion = step_params['assert']
+        
+        assertForFilters(context, networkID, targetStructureID,
+                         search_assertion['filters'], search_assertion['assert'])
+
+        # TODO extrat resultStructID from result, or just use for report run
+
+    safe(impl)
+
+def reportParamsToDto(params):
+    return ReportSettingsDTO.Parameter(
+        name=params['name'],
+        typeVariable=params['typeVariable'],
+        defValue=params['defValue'], 
+        id=params['id']
+    )
+
+def reportFieldToDto(field):
+    return ReportSettingsDTO.Field(
+        field=field['field'],
+        id=field['id']
+    )
+
+
+def reportAggregationsToDto(aggr):
+    return ReportSettingsDTO.Aggregation(
+        field=aggr['field'],
+        fn=aggr['fn'],
+        id=aggr['id'],
+        resultFieldName=aggr['resultFieldName']
+    )
+
+
+def reportGroupToDto(group):
+    fields = list(map(reportFieldToDto, group['fields']))
+    aggregations = list(map(reportAggregationsToDto, group['aggregations']))
+    return ReportSettingsDTO.Group(
+        fields=fields,
+        aggregations=aggregations,
+        id=group['id']
+    )
+
+def reportAggregationFiltersToDto(filter):
+    return ReportSettingsDTO.AggregationFilter(
+        aggregationId=filter['aggregationId'],
+        exp=filter['exp'],
+        value=filter['value'],
+        isExp=filter['isExp']
+    )
+
+def settingsToDto(structID, settings):
+    parameters = list(map(reportParamsToDto, settings['parameters']))
+    fields = list(map(reportFieldToDto, settings['fields']))
+    groups = list(map(reportGroupToDto, settings['groups']))
+    postFilters = list(map(reportAggregationFiltersToDto, settings['postFilters']))
+    
+    preFilters = settings['preFilters']
+    preFiltersJsonRaw = list(map(json.dumps, preFilters))
+
+    dto = ReportSettingsDTO(
+        name=settings['name'],
+        structID=structID,
+        resultStructID=0,
+        preFiltersType=settings['preFiltersType'],
+        postFiltersType=settings['postFiltersType'],
+        parameters=parameters,
+        fields=fields,
+        groups=groups,
+        preFiltersJsonRaw=preFiltersJsonRaw,
+        postFilters=postFilters
+    )
+    return dto
 
 def commonStructInfo():
     obj = StructureInfoDTO(

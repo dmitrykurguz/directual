@@ -66,6 +66,11 @@ class MetadataRemoteServiceStub(object):
         request_serializer=CommonRequestResponse__pb2.NetworkIDRequest.SerializeToString,
         response_deserializer=CommonRequestResponse__pb2.ScenarioDirectoruesDTO.FromString,
         )
+    self.GenerateReportStructure = channel.unary_unary(
+        '/MetadataRemoteService/GenerateReportStructure',
+        request_serializer=CommonRequestResponse__pb2.GenerateReportStructureRequest.SerializeToString,
+        response_deserializer=DTO__pb2.ReportSettingsDTO.FromString,
+        )
 
 
 class MetadataRemoteServiceServicer(object):
@@ -142,6 +147,13 @@ class MetadataRemoteServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GenerateReportStructure(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_MetadataRemoteServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -194,6 +206,11 @@ def add_MetadataRemoteServiceServicer_to_server(servicer, server):
           servicer.ScenarioDirectoriesMapping,
           request_deserializer=CommonRequestResponse__pb2.NetworkIDRequest.FromString,
           response_serializer=CommonRequestResponse__pb2.ScenarioDirectoruesDTO.SerializeToString,
+      ),
+      'GenerateReportStructure': grpc.unary_unary_rpc_method_handler(
+          servicer.GenerateReportStructure,
+          request_deserializer=CommonRequestResponse__pb2.GenerateReportStructureRequest.FromString,
+          response_serializer=DTO__pb2.ReportSettingsDTO.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

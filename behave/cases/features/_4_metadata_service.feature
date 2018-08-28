@@ -208,7 +208,7 @@
             "id" : "1",
             "data" : {
                 "name" : "Петр",
-                "age" : "33",
+                "age" : 33,
                 "city_id" : "1"
             }
             },
@@ -216,7 +216,7 @@
                 "id" : "2",
                 "data" : {
                     "name" : "Юрий",
-                    "age" : "39",
+                    "age" : 39,
                     "city_id" : "1"
                 }
             },
@@ -224,7 +224,7 @@
                 "id" : "3",
                 "data" : {
                     "name" : "Юлия",
-                    "age" : "20",
+                    "age" : 20,
                     "city_id" : "2"
                 }
             },
@@ -232,7 +232,7 @@
                 "id" : "4",
                 "data" : {
                     "name" : "Мария",
-                    "age" : "28",
+                    "age" : 28,
                     "city_id" : "2"
                 }
             },
@@ -240,7 +240,7 @@
                 "id" : "5",
                 "data" : {
                     "name" : "Григорий",
-                    "age" : "45",
+                    "age" : 45,
                     "city_id" : "3"
                 }
             },
@@ -248,7 +248,7 @@
                 "id" : "6",
                 "data" : {
                     "name" : "Федор",
-                    "age" : "52",
+                    "age" : 52,
                     "city_id" : "4"
                 }
             }
@@ -286,6 +286,111 @@
         }
     }
     """
+    Если в networkID "1" строим аггрегацию по структуре "users"
+    """
+    {
+        "request" : {
+            "filters" : {
+                "op" : "all",
+                "innerFilters" : [
+                    {
+                        "op" : "==",
+                        "field" : "city_id.size",
+                        "value" : "L"
+                    }
+                ]
+            },
+            "aggregation" : "arrayField",
+            "aggregationField" : "name"
+        },
+        "assert" : {
+            "stringValue.value" : "Федор,Григорий"
+        }
+    }
+    """
+    Если в networkID "1" создаем отчет по структуре "users"
+    """
+    {
+        "request" : {
+            "settings" : {
+                "name" : "avg age and count / city size",
+                "preFiltersType" : "AND",
+                "postFiltersType" : "AND",
+                "parameters" : [],
+                "fields" : [
+                    {
+                        "field": "id",
+                        "id": "id"
+                    },
+                    {
+                        "field": "name",
+                        "id": "name"
+                    },
+                    {
+                        "field": "age",
+                        "id": "age"
+                    },
+                    {
+                        "field": "city_id",
+                        "id": "city_id"
+                    },
+                    {
+                        "field": "city_id.size",
+                        "id": "city_id.size"
+                    }
+                ],
+                "groups" : [{
+                    "fields": [{
+                        "field": "city_id.size",
+                        "id": "city_id.size"
+                    }],
+                    "aggregations": [{
+                        "field": "age",
+                        "fn": "avg",
+                        "id": "avg (age)",
+                        "resultFieldName": ""
+                    },{
+                        "field": "id",
+                        "fn": "count",
+                        "id": "count (id)",
+                        "resultFieldName": ""
+                    }],
+                    "id": "200"
+                }],
+                "preFilters" : [{
+                    "exp": "!=",
+                    "field": "name",
+                    "value": "Петр",
+                    "isExp": false
+                }],
+                "postFilters" : [{
+                    "aggregationId": "count (id)",
+                    "exp": ">",
+                    "value": "2",
+                    "isExp": true
+                }]
+            }
+        },
+        "assert" : {
+            "filters" : {
+            },
+            "assert" : {
+                "total": 1,
+                "value.values.[0]" : {
+                    "networkID.value" : 1,
+                    "data.values.['id___count'].intValue.value" : 3,
+                    "data.values.['city_id__size'].stringValue.value" : "XXL",
+                    "data.values.['age___avg'].doubleValue.value" : 29.0
+                }
+            }
+        }
+    }
+    """
+
+# TODO count
+
+
+# TODO metadata: rpc GenerateReportStructure(GenerateReportStructureRequest) returns (ReportSettingsDTO) {}    
 
 #FindByNetworkID
 #ScenarioDirectoriesMapping
