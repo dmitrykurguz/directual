@@ -404,7 +404,8 @@
         "pattern" : {
             "id" : "%d",
             "data" : {
-                "name" : "worker-%d"
+                "name" : "worker-%d",
+                "age" : "int:%d"
             }
         }
     }
@@ -415,12 +416,13 @@
         "size" : 100
     }
     """
-    И в networkID "1" потоково собираем поля "name" из структуры "workers"
+    И в networkID "1" потоково собираем поля "name, age" из структуры "workers"
     """
     {
         "size" : 100,
         "assert" : {
             "[0].values.values.['name'].stringValue.value" : "worker-0",
+            "[40].values.values.['age'].intValue.value" : 40,
             "[99].values.values.['name'].stringValue.value" : "worker-99"
         }
     }

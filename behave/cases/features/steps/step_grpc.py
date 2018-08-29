@@ -478,23 +478,25 @@ def templatePattern(pattern, idx):
             if isinstance(patternValue, dict):
                 result[patternKey] = templatePattern(patternValue, idx)
             else:
-                # try:
-                    if '%' in patternValue:
-                        result[patternKey] = patternValue % idx
-                    else:
-                        result[patternKey] = patternValue
-                # except:
-                    # return pattern
+                if '%' in patternValue:
+                    result[patternKey] = doTemplate(patternValue, idx)
+                else:
+                    result[patternKey] = patternValue
     else:
-        # try:
-            if '%' in pattern:
-                return pattern % idx
-            else:
-                return pattern
-        # except:
-                # return pattern
+        if '%' in pattern:
+            return doTemplate(pattern, idx)
+        else:
+            return pattern
 
     return result
+
+def doTemplate(pattern, idx):
+    if pattern.startswith('int:'):
+        actual = pattern[4:]
+        templated = actual % idx
+        return int(templated)
+    else:
+        return pattern % idx
 
 def reportParamsToDto(params):
     return ReportSettingsDTO.Parameter(
@@ -617,6 +619,7 @@ def requestToFilterDTO(request):
 
 
 def valueToFieldDataValue(value):
+    debug(value)
     if type(value) is str:
         return FieldDataValue(
             stringValue=StringValue(
