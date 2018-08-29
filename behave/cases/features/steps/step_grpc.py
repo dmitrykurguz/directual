@@ -11,7 +11,7 @@ from google.protobuf import empty_pb2
 from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, BoolValue, DoubleValue
 
 
-from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest, SimpleAggregateRequest, GenerateReportStructureRequest, BuildReportRequest
+from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest, SimpleAggregateRequest, GenerateReportStructureRequest, BuildReportRequest, NetworkIDWithStructIDRequest, ProcessObjectRequest
 from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO, ReportSettingsDTO
 
 from flatten_json import flatten_json
@@ -21,6 +21,7 @@ from step_utils import readCookieFromCache, appAddress, paramFromConfig, debug, 
 
 @given('в networkID "{networkID:d}" удаляем структуру "{sysName}"')
 @when('в networkID "{networkID:d}" удаляем структуру "{sysName}"')
+@then('в networkID "{networkID:d}" удаляем структуру "{sysName}"')
 def step_impl(context, networkID, sysName):
     def impl():
         request = NetworkIDWithStructSysNameRequestAndUserIDRequest()
@@ -174,6 +175,37 @@ def step_impl(context, networkID, structName):
         
     safe(impl)
 
+
+@then('в networkID "{networkID:d}" генерируем "{count:d}" объектов в структуре "{structName}"')
+def step_impl(context, networkID, count, structName):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+
+        step_params = json.loads(context.text)
+        pattern = step_params['pattern']
+
+        structInfoByStruct = {}
+        structInfoByStruct[structID] = commonStructInfo()
+
+        items = map(lambda idx: (templatePattern(pattern['id'], idx), dataToFieldsValues(
+            templatePattern(pattern['data'], idx))), range(count))
+
+        dtoList = list(map(lambda kv: fieldValueToScenarioObjectDTOWrapper(
+            networkID, structID, kv[0], kv[1]), items))
+
+        request = NetworkIDWithScenarioObjectListRequestWithStructInfo(
+            dto=NetworkIDWithScenarioObjectListRequest(
+                networkID=networkID,
+                scenarioObjects=ScenarioObjectListDTO(values=dtoList)
+            ),
+            structInfoByStruct=structInfoByStruct,
+
+        )
+        debugProto('request', request)
+        result = context.mongodbServiceStub.SaveBatch(request)
+        debugProto('response', result)
+
+    safe(impl)
 
 @when('в networkID "{networkID:d}" существует объект в структуре "{structName}" с id="{id}"')
 @then('в networkID "{networkID:d}" существует объект в структуре "{structName}" с id="{id}"')
@@ -381,6 +413,88 @@ def step_impl(context, networkID, structName):
         # TODO extrat resultStructID from result, or just use for report run
 
     safe(impl)
+
+
+@then('в networkID "{networkID:d}" потоково собираем объекты из структуры "{structName}"')
+def step_impl(context, networkID, structName):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        step_params = json.loads(context.text)
+
+        request = NetworkIDWithStructIDRequest(
+            networkID=networkID,
+            structID=structID
+        )
+        debugProto('request', request)
+        result = context.mongodbServiceStub.ProcessObjects(request)
+
+        resultItems = list()
+        for item in result:
+            resultItems.append(item)
+
+        debug('response items', resultItems)
+        assertEq(step_params['size'], len(resultItems))
+
+    safe(impl)
+
+
+@then('в networkID "{networkID:d}" потоково собираем поля "{fieldNames}" из структуры "{structName}"')
+def step_impl(context, networkID, fieldNames, structName):
+    def impl():
+        structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        step_params = json.loads(context.text)
+        fields = map(lambda x: x.strip(), fieldNames.split(","))
+
+        # TODO
+        request = ProcessObjectRequest(
+            networkID=networkID,
+            structID=structID,
+            fieldNames=fields,
+            structInfo=commonStructInfo()
+        )
+        debugProto('request', request)
+        result = context.mongodbServiceStub.ProcessObjectsWithFields(request)
+
+        resultItems = list()
+        for item in result:
+            resultItems.append(item)
+
+        debug('response items', resultItems)
+        assertEq(step_params['size'], len(resultItems))
+
+        assertion = flatten_json(step_params['assert'], '.')
+        for assertKey, assertValue in assertion.items():
+            # extract value from StringValue
+            objValue = deepgetattr(resultItems, assertKey)
+            assertEq(objValue, assertValue)
+
+    safe(impl)
+
+
+def templatePattern(pattern, idx):
+    result = {}
+    if isinstance(pattern, dict):
+        for patternKey, patternValue in pattern.items():
+            if isinstance(patternValue, dict):
+                result[patternKey] = templatePattern(patternValue, idx)
+            else:
+                # try:
+                    if '%' in patternValue:
+                        result[patternKey] = patternValue % idx
+                    else:
+                        result[patternKey] = patternValue
+                # except:
+                    # return pattern
+    else:
+        # try:
+            if '%' in pattern:
+                return pattern % idx
+            else:
+                return pattern
+        # except:
+                # return pattern
+
+    return result
 
 def reportParamsToDto(params):
     return ReportSettingsDTO.Parameter(

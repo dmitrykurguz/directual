@@ -78,12 +78,29 @@ def ourgetattr(obj, name):
   #dict by name
   if name.startswith('[\''):
     prop = name[2:-2]
-    return obj[prop]
+    return getKeyOrNone(obj, prop)
   #array by index
   if name.startswith('['):
     idx = int(name[1:-1])
-    return obj[idx]
-  return getattr(obj, name)
+    if idx <= len(obj) - 1:
+      return obj[idx]
+    else:
+      return None
+    
+
+  return getAttrOrNone(obj, name)
+
+def getKeyOrNone(obj, key):
+  if key in obj:
+    return obj[key]
+  else:
+    return None
+
+def getAttrOrNone(obj, name):
+  if hasattr(obj, name):
+    return getattr(obj, name)
+  else:
+    return None
 
 
 def safe(function):

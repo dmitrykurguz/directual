@@ -140,9 +140,6 @@
     """
 
 
-
-
-@wip
 @metadata-service
 @mongodb-service
 Сценарий: Проверяем простые аггрегации, отчеты и поиск по индексу
@@ -205,12 +202,12 @@
     {
         "request" : [
             {
-            "id" : "1",
-            "data" : {
-                "name" : "Петр",
-                "age" : 33,
-                "city_id" : "1"
-            }
+                "id" : "1",
+                "data" : {
+                    "name" : "Петр",
+                    "age" : 33,
+                    "city_id" : "1"
+                }
             },
             {
                 "id" : "2",
@@ -387,12 +384,60 @@
     }
     """
 
-# TODO count
 
-
-# TODO metadata: rpc GenerateReportStructure(GenerateReportStructureRequest) returns (ReportSettingsDTO) {}    
+@wip
+@metadata-service
+@mongodb-service
+Сценарий: Проверяем потоковые методы
+    Допустим в networkID "1" удаляем структуру "workers"
+    И в networkID "1" создаем структуру "workers" с полями
+    """
+    [
+        {"sysName":"id","dataType":"id","name":"id","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"name","dataType":"string","name":"name","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false},
+        {"sysName":"age","dataType":"number","name":"age","link":"","indexing":false,"ordering":false,"linkIndexFieldSysName":[],"arrayLink":false,"linkType":false,"linkOrArrayLinkType":false}
+    ]
+    """
+    То в networkID "1" генерируем "100" объектов в структуре "workers"
+    """
+    {
+        "pattern" : {
+            "id" : "%d",
+            "data" : {
+                "name" : "worker-%d"
+            }
+        }
+    }
+    """
+    И в networkID "1" потоково собираем объекты из структуры "workers"
+    """
+    {
+        "size" : 100
+    }
+    """
+    И в networkID "1" потоково собираем поля "name" из структуры "workers"
+    """
+    {
+        "size" : 100,
+        "assert" : {
+            "[0].values.values.['name'].stringValue.value" : "worker-0",
+            "[99].values.values.['name'].stringValue.value" : "worker-99"
+        }
+    }
+    """
+    И в networkID "1" потоково собираем поля "unknown1, some2" из структуры "workers"
+    """
+    {
+        "size" : 100,
+        "assert" : {
+            "[0].values.values.['unknown1'].stringValue.value" : null,
+            "[99].values.values.['some2'].stringValue.value" : null,
+            "[100]" : null
+        }
+    }
+    """
 
 #FindByNetworkID
 #ScenarioDirectoriesMapping
 
-# List, TableSize, Report, ProcessObjects, ProcessObjectsWithFields, BatchFields, SimpleAggregate
+# List, TableSize, ProcessObjects, ProcessObjectsWithFields, BatchFields
