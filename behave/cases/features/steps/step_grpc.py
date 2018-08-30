@@ -12,7 +12,7 @@ from google.protobuf.wrappers_pb2 import StringValue, Int64Value, Int32Value, Bo
 
 
 from directualproto . CommonRequestResponse_pb2 import NetworkIDWithStructSysNameRequest, NetworkIDWithStructSysNameRequestAndUserIDRequest, CreateStructureRequest, ScenarioObjectDTOWrapperWithStructInfo, ExistsRequest, FieldsWithDataRequest, FindObjectRequest, NetworkIDWithScenarioObjectListRequestWithStructInfo, NetworkIDWithScenarioObjectListRequest, SimpleAggregateRequest, GenerateReportStructureRequest, BuildReportRequest, NetworkIDWithStructIDRequest, ProcessObjectRequest
-from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO, ReportSettingsDTO
+from directualproto . DTO_pb2 import StructureDTO, ScenarioObjectDTOWrapper, StructureInfoDTO, FieldsValues, FieldDataValue, BasicScenarioObjDTO, ExpressionResultDto, ExpressionResultType, SET, FilterDTO, PaginatorDTO, ScenarioObjectListDTO, ReportSettingsDTO, DataType, ID, STRING, NUMBER, DECIMAL, BOOLEAN, DATE, ARRAY, LINK, ARRAY_LINK
 
 from flatten_json import flatten_json
 from behave import given, when, then
@@ -36,15 +36,33 @@ def step_impl(context, networkID, sysName):
     safe(impl)
 
 
+def typeToDataType(typeStr):
+    if typeStr == 'id':
+        return ID
+    if typeStr == 'string':
+        return STRING
+    if typeStr == 'number':
+        return NUMBER
+    if typeStr == 'decimal':
+        return DECIMAL
+    if typeStr == 'boolean':
+        return BOOLEAN
+    if typeStr == 'date':
+        return DATE
+    if typeStr == 'array':
+        return ARRAY
+    if typeStr == 'link':
+        return LINK
+    if typeStr == 'arrayLink':
+        return ARRAY_LINK
+
+
 @given('в networkID "{networkID:d}" создаем структуру "{sysName}" с полями')
 @when('в networkID "{networkID:d}" создаем структуру "{sysName}" с полями')
 def step_impl(context, networkID, sysName):
     def impl():
         fieldInfo = context.text
-        
-
         # for fieldName, dataType in step_params.items():
-
 
         dto = StructureDTO(
             sysName = StringValue(value = sysName),
@@ -65,7 +83,36 @@ def step_impl(context, networkID, sysName):
 
         addToCache(structCacheKey(networkID, sysName, 'id'), result.id.value)
 
+
+        step_params = json.loads(context.text)
+        dataTypeByName = dict(map(lambda x: (x['sysName'], typeToDataType(x['dataType'])), step_params))
+
+        print('dataTypeByName')
+        print(dataTypeByName)
+        print(dataTypeByName['id'])
+        print(type(dataTypeByName['id']))
+
+        obj = StructureInfoDTO(
+            idFieldSysName=StringValue(value = 'id'),
+            dataTypeByName=dataTypeByName
+        )
+
+        cacheStructInfo(networkID, sysName, obj)
+
     safe(impl)
+
+
+def cacheStructInfo(networkID, sysName, obj):
+    addToCache(structCacheKey(networkID, sysName,
+                              '_sturctInfo'), obj.SerializeToString())
+
+def readStructInfo(networkID, sysName):
+    data = readFromCache(structCacheKey(networkID, sysName, '_sturctInfo'))
+    result = StructureInfoDTO()
+    result.ParseFromString(data)
+    return result
+
+
 
 @given('ищем структуру и проверяем')
 @then('ищем структуру и проверяем')
@@ -96,6 +143,7 @@ def step_impl(context):
 def step_impl(context, networkID, structName):
     def impl():
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        structInfo = readStructInfo(networkID, structName)
         debug('previously created struct id is %s' % structID)
 
         step_params = json.loads(context.text)
@@ -110,7 +158,7 @@ def step_impl(context, networkID, structName):
                 objectID=StringValue(value = id),
                 data=fieldValues
             ),
-            structInfo = commonStructInfo()
+            structInfo=structInfo
         )
         debugProto('request', request)
         result = context.mongodbServiceStub.Save(request)
@@ -151,7 +199,8 @@ def step_impl(context, networkID, structName):
         dataItems = step_params['request']
 
         structInfoByStruct = {}
-        structInfoByStruct[structID] = commonStructInfo()
+        structInfo = readStructInfo(networkID, structName)
+        structInfoByStruct[structID] = structInfo
 
 
         items = map(lambda x: (x['id'], dataToFieldsValues(x['data'])), dataItems)
@@ -184,8 +233,9 @@ def step_impl(context, networkID, count, structName):
         step_params = json.loads(context.text)
         pattern = step_params['pattern']
 
+        structInfo = readStructInfo(networkID, structName)
         structInfoByStruct = {}
-        structInfoByStruct[structID] = commonStructInfo()
+        structInfoByStruct[structID] = structInfo
 
         items = map(lambda idx: (templatePattern(pattern['id'], idx), dataToFieldsValues(
             templatePattern(pattern['data'], idx))), range(count))
@@ -245,13 +295,14 @@ def step_impl(context, networkID, structName, id):
         step_params = json.loads(context.text)
         data = step_params['request']['data']
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        structInfo = readStructInfo(networkID, structName)
         changeFields=dataToChangeFieldObjects(data)
         request = FieldsWithDataRequest(
             networkID=networkID,
             structID=structID,
             objectID=id,
             who="behave",
-            structInfo=commonStructInfo(),
+            structInfo=structInfo,
             fields=changeFields
         )
 
@@ -276,18 +327,19 @@ def step_impl(context, networkID, structName):
         step_params = json.loads(context.text)
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
 
-        assertForFilters(context, networkID, structID, step_params['filters'], step_params['assert'])
+        assertForFilters(context, networkID, structName, structID, step_params['filters'], step_params['assert'])
 
     safe(impl)
 
 
-def assertForFilters(context, networkID, structID, filters, assertItem):
+def assertForFilters(context, networkID, structName, structID, filters, assertItem):
     filterDto = requestToFilterDTO(filters)
+    structInfo = readStructInfo(networkID, structName)
 
     request = FindObjectRequest(
         networkID=networkID,
         structID=structID,
-        structInfo=commonStructInfo(),
+        structInfo=structInfo,
         filters=[filterDto],
         paginator=PaginatorDTO(
             page=0,
@@ -332,6 +384,7 @@ def step_impl(context, networkID, structName, id):
 def step_impl(context, networkID, structName):
     def impl():
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        structInfo = readStructInfo(networkID, structName)
         step_params = json.loads(context.text)
 
         request_params = step_params['request']
@@ -345,7 +398,7 @@ def step_impl(context, networkID, structName):
             networkID=networkID,
             structID=structID,
             filters=[filterDto],
-            structInfo=commonStructInfo(),
+            structInfo=structInfo,
             aggregation=aggregation,
             aggregationField=aggregationField
             )
@@ -407,7 +460,8 @@ def step_impl(context, networkID, structName):
 
         search_assertion = step_params['assert']
         
-        assertForFilters(context, networkID, targetStructureID,
+        # TODO targetStructSysName(hbase only)
+        assertForFilters(context, networkID, 'TODO', targetStructureID,
                          search_assertion['filters'], search_assertion['assert'])
 
         # TODO extrat resultStructID from result, or just use for report run
@@ -442,15 +496,15 @@ def step_impl(context, networkID, structName):
 def step_impl(context, networkID, fieldNames, structName):
     def impl():
         structID = readFromCache(structCacheKey(networkID, structName, 'id'))
+        structInfo = readStructInfo(networkID, structName)
         step_params = json.loads(context.text)
         fields = map(lambda x: x.strip(), fieldNames.split(","))
 
-        # TODO
         request = ProcessObjectRequest(
             networkID=networkID,
             structID=structID,
             fieldNames=fields,
-            structInfo=commonStructInfo()
+            structInfo=structInfo
         )
         debugProto('request', request)
         result = context.mongodbServiceStub.ProcessObjectsWithFields(request)
@@ -561,13 +615,6 @@ def settingsToDto(structID, settings):
         postFilters=postFilters
     )
     return dto
-
-def commonStructInfo():
-    obj = StructureInfoDTO(
-        idFieldSysName=StringValue(value = 'id'),
-        dataTypeByName={}
-    )
-    return  obj
 
 
 def structCacheKey(networkID, sysName, field):
