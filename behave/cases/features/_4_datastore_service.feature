@@ -79,7 +79,7 @@
                 "objectID.value" : "2",
                 "networkID.value" : 1,
                 "data.values.['name'].stringValue.value" : "Гектор",
-                "data.values.['age'].intValue.value" : 35,
+                "data.values.['age'].longValue.value" : 35,
                 "data.values.['weight'].doubleValue.value" : 12.52
             }
         }
@@ -108,7 +108,7 @@
                 "objectID.value" : "2",
                 "networkID.value" : 1,
                 "data.values.['name'].stringValue.value" : "Гектор",
-                "data.values.['age'].intValue.value" : 35,
+                "data.values.['age'].longValue.value" : 35,
                 "data.values.['weight'].doubleValue.value" : 12.52
             }
         }
@@ -422,7 +422,7 @@
         "size" : 100,
         "assert" : {
             "[0].values.values.['name'].stringValue.value" : "worker-0",
-            "[40].values.values.['age'].intValue.value" : 40,
+            "[40].values.values.['age'].longValue.value" : 40,
             "[99].values.values.['name'].stringValue.value" : "worker-99"
         }
     }

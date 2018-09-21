@@ -18,6 +18,10 @@ behave -w -Dapp_address=http://localhost:8081 -Dmetadata_address=localhost:12345
 
 ➜  cases git:(plt-870-test-remote) ✗ behave -Dapp_address=http://localhost:8080 -f allure_behave.formatter:AllureFormatter -o reports
 
+
+
+behave -Dapp_address=http://localhost:8081 -Dmetadata_address=localhost:12345 -Dmongodb_address=localhost:12341 -f allure_behave.formatter:AllureFormatter -o reports
+
 # 
 ## also cat start
 # processor
