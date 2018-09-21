@@ -334,12 +334,14 @@ def step_impl(context, networkID, structName):
 
 def assertForFilters(context, networkID, structName, structID, filters, assertItem):
     filterDto = requestToFilterDTO(filters)
-    structInfo = readStructInfo(networkID, structName)
+
+    #struct info need only for hbase
+    # structInfo = readStructInfo(networkID, structName)
 
     request = FindObjectRequest(
         networkID=networkID,
         structID=structID,
-        structInfo=structInfo,
+        # structInfo=structInfo,
         filters=[filterDto],
         paginator=PaginatorDTO(
             page=0,
@@ -461,6 +463,20 @@ def step_impl(context, networkID, structName):
         search_assertion = step_params['assert']
         
         # TODO targetStructSysName(hbase only)
+        # findResultStructureRequest = NetworkIDWithStructIDRequest(
+        #     networkID=networkID,
+        #     structID=targetStructureID
+        # )
+        # debugProto('findResultStructureRequest', findResultStructureRequest)
+        # resultStructResponse = context.metadataServiceStub.FindByID(
+        #     findResultStructureRequest)
+        # debugProto('resultStructResponse', resultStructResponse)
+        # resultStructSysName = resultStructResponse.value.sysName.value
+
+        # addToCache(structCacheKey(networkID, resultStructSysName, 'id'), targetStructureID)
+        # assertForFilters(context, networkID, resultStructSysName, targetStructureID,
+                        #  search_assertion['filters'], search_assertion['assert'])
+
         assertForFilters(context, networkID, 'TODO', targetStructureID,
                          search_assertion['filters'], search_assertion['assert'])
 

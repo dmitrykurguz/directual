@@ -139,7 +139,7 @@
     }
     """
 
-
+@wip
 @metadata-service
 @mongodb-service
 Сценарий: Проверяем простые аггрегации, отчеты и поиск по индексу
@@ -375,7 +375,7 @@
                 "total": 1,
                 "value.values.[0]" : {
                     "networkID.value" : 1,
-                    "data.values.['id___count'].intValue.value" : 3,
+                    "data.values.['id___count'].longValue.value" : 3,
                     "data.values.['city_id__size'].stringValue.value" : "XXL",
                     "data.values.['age___avg'].doubleValue.value" : 29.0
                 }
@@ -385,7 +385,7 @@
     """
 
 
-@wip
+#@wip
 @metadata-service
 @mongodb-service
 Сценарий: Проверяем потоковые методы
